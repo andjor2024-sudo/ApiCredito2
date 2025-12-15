@@ -2,11 +2,19 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-COPY *.sln ./
-COPY GestionIntApi/*.csproj ./GestionIntApi/
-RUN dotnet restore
+# Copiamos la solución
+COPY GestionIntApi.sln ./
 
+# Copiamos solo el proyecto
+COPY GestionIntApi/GestionIntApi.csproj GestionIntApi/
+
+# Restauramos dependencias del proyecto
+RUN dotnet restore GestionIntApi/GestionIntApi.csproj
+
+# Copiamos todo el resto
 COPY . .
+
+# Publicamos el proyecto
 WORKDIR /app/GestionIntApi
 RUN dotnet publish -c Release -o /out
 

@@ -95,22 +95,52 @@ namespace GestionIntApi.Repositorios.Implementacion
             if (!string.IsNullOrWhiteSpace(apiKeyFromEnv))
                 _settings1.ApiKey = apiKeyFromEnv;
         }
-      
+
         public async Task SendEmailAsync(string to, string subject, string body)
         {
+            Console.WriteLine("📧 [SENDGRID] Iniciando envío de correo...");
+            Console.WriteLine($"📨 [SENDGRID] Destinatario: {to}");
+            Console.WriteLine($"📝 [SENDGRID] Asunto: {subject}");
+
             if (string.IsNullOrWhiteSpace(_settings1.ApiKey))
+            {
+                Console.WriteLine("❌ [SENDGRID] ApiKey está VACÍA o NULL");
                 throw new Exception("SendGrid ApiKey no configurada");
+            }
+
+            Console.WriteLine($"🔑 [SENDGRID] ApiKey detectada (length: {_settings1.ApiKey.Length})");
+            Console.WriteLine($"👤 [SENDGRID] FromEmail: {_settings1.FromEmail}");
+            Console.WriteLine($"🏷️ [SENDGRID] FromName: {_settings1.FromName}");
 
             var client = new SendGridClient(_settings1.ApiKey);
             var from = new EmailAddress(_settings1.FromEmail, _settings1.FromName);
             var toEmail = new EmailAddress(to);
-            var msg = MailHelper.CreateSingleEmail(from, toEmail, subject, body, body);
+
+            var msg = MailHelper.CreateSingleEmail(
+                from,
+                toEmail,
+                subject,
+                body,
+                body
+            );
+
+            Console.WriteLine("🚀 [SENDGRID] Enviando correo a SendGrid...");
 
             var response = await client.SendEmailAsync(msg);
+
+            Console.WriteLine($"📡 [SENDGRID] StatusCode: {(int)response.StatusCode}");
+
             if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
-                Console.WriteLine("Correo enviado correctamente.");
+            {
+                Console.WriteLine("✅ [SENDGRID] Correo enviado correctamente.");
+            }
             else
-                Console.WriteLine($"Error al enviar correo: {response.StatusCode}");
+            {
+                var responseBody = await response.Body.ReadAsStringAsync();
+                Console.WriteLine("❌ [SENDGRID] Error al enviar correo");
+                Console.WriteLine($"📄 [SENDGRID] Response body: {responseBody}");
+            }
         }
+
     }
 }

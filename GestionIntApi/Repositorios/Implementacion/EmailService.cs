@@ -62,7 +62,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         }
 
 
-        public async Task SendEmailAsync2(string to, string subject, string body)
+        public async Task SendEmailAsync2coorectoantes(string to, string subject, string body)
         {
             if (string.IsNullOrWhiteSpace(_settings1.ApiKey))
                 throw new Exception("SendGrid ApiKey no configurada");
@@ -86,6 +86,8 @@ namespace GestionIntApi.Repositorios.Implementacion
 
         public EmailService(IOptions<SendGridSettings> options)
         {
+
+          
             _settings1 = options.Value
                 ?? throw new ArgumentNullException(nameof(options));
             // Sobrescribimos ApiKey con la variable de entorno si existe

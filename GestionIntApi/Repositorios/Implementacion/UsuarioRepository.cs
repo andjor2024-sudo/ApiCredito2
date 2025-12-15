@@ -175,6 +175,7 @@ namespace GestionIntApi.Repositorios.Implementacion
             new Claim("ClienteId", usuario.Cliente.Id.ToString()),
             new Claim(ClaimTypes.Name, usuario.NombreApellidos)
         }),
+              //  Expires = DateTime.UtcNow.AddHours(int.Parse(jwtSettings["ExpiryHours"])),
                 Expires = DateTime.UtcNow.AddHours(int.Parse(_configuration.GetSection("JwtSettings")["ExpiryHours"])),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

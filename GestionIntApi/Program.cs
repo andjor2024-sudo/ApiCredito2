@@ -40,15 +40,17 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var jwtSecret = builder.Configuration["JwtSettings:SecretKey"];
+// ?? JWT ENV
+var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
-if (string.IsNullOrEmpty(jwtSecret))
+if (string.IsNullOrWhiteSpace(jwtSecret))
 {
     throw new Exception("JWT_SECRET_KEY no está configurada en variables de entorno");
 }
 
-var key = Encoding.UTF8.GetBytes(jwtSecret);
+builder.Configuration["JwtSettings:SecretKey"] = jwtSecret;
 
+var key = Encoding.UTF8.GetBytes(jwtSecret);
 
 
 

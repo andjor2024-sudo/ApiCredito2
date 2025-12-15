@@ -13,12 +13,12 @@ namespace GestionIntApi.Repositorios.Implementacion
 
         private readonly EmailSettings _settings;
         private readonly SendGridSettings _settings1;
-        public EmailService(IOptions<SendGridSettings> options)
+        /*public EmailService(IOptions<SendGridSettings> options)
         {
             _settings1 = options.Value
                 ?? throw new ArgumentNullException(nameof(options));
         }
-
+        */
 
 
         // public EmailService(IOptions<SendGridSettings> settings)
@@ -62,7 +62,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         }
 
 
-        public async Task SendEmailAsync(string to, string subject, string body)
+        public async Task SendEmailAsync2(string to, string subject, string body)
         {
             if (string.IsNullOrWhiteSpace(_settings1.ApiKey))
                 throw new Exception("SendGrid ApiKey no configurada");
@@ -81,6 +81,34 @@ namespace GestionIntApi.Repositorios.Implementacion
             );
 
             await client.SendEmailAsync(msg);
+        }
+
+
+        public EmailService(IOptions<SendGridSettings> options)
+        {
+            _settings1 = options.Value
+                ?? throw new ArgumentNullException(nameof(options));
+            // Sobrescribimos ApiKey con la variable de entorno si existe
+            var apiKeyFromEnv = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            if (!string.IsNullOrWhiteSpace(apiKeyFromEnv))
+                _settings1.ApiKey = apiKeyFromEnv;
+        }
+      
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            if (string.IsNullOrWhiteSpace(_settings1.ApiKey))
+                throw new Exception("SendGrid ApiKey no configurada");
+
+            var client = new SendGridClient(_settings1.ApiKey);
+            var from = new EmailAddress(_settings1.FromEmail, _settings1.FromName);
+            var toEmail = new EmailAddress(to);
+            var msg = MailHelper.CreateSingleEmail(from, toEmail, subject, body, body);
+
+            var response = await client.SendEmailAsync(msg);
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+                Console.WriteLine("Correo enviado correctamente.");
+            else
+                Console.WriteLine($"Error al enviar correo: {response.StatusCode}");
         }
     }
 }

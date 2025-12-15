@@ -129,7 +129,7 @@ namespace GestionIntApi.Repositorios.Implementacion
 
 
 
-        public string GenerarToken(Usuario usuario)
+        public string GenerarToken1(Usuario usuario)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var key = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]);
@@ -144,6 +144,38 @@ namespace GestionIntApi.Repositorios.Implementacion
             new Claim(ClaimTypes.Name, usuario.NombreApellidos)
         }),
                 Expires = DateTime.UtcNow.AddHours(int.Parse(jwtSettings["ExpiryHours"])),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+
+        public string GenerarToken(Usuario usuario)
+        {
+            // Intentamos obtener la clave desde la variable de entorno
+            var secretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+
+            if (string.IsNullOrWhiteSpace(secretKey))
+            {
+                // Si no está la variable, usamos la que está en appsettings.json
+                var jwtSettings = _configuration.GetSection("JwtSettings");
+                secretKey = jwtSettings["SecretKey"];
+            }
+
+            var key = Encoding.ASCII.GetBytes(secretKey);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+            new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+            new Claim("ClienteId", usuario.Cliente.Id.ToString()),
+            new Claim(ClaimTypes.Name, usuario.NombreApellidos)
+        }),
+                Expires = DateTime.UtcNow.AddHours(int.Parse(_configuration.GetSection("JwtSettings")["ExpiryHours"])),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

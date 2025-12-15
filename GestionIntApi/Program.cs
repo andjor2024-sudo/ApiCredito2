@@ -40,6 +40,19 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
+var jwtSecret = builder.Configuration["JwtSettings:SecretKey"];
+
+if (string.IsNullOrEmpty(jwtSecret))
+{
+    throw new Exception("JWT_SECRET_KEY no está configurada en variables de entorno");
+}
+
+var key = Encoding.UTF8.GetBytes(jwtSecret);
+
+
+
+
+
 builder.WebHost.UseUrls("http://0.0.0.0:7166");
 
 

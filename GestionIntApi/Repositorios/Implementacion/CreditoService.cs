@@ -292,11 +292,13 @@ namespace GestionIntApi.Repositorios.Implementacion
             // =============================
             await _creditoRepository.Editar(credito);
             var dto = _mapper.Map<CreditoDTO>(credito);
+
             await _hubContext.Clients.All.SendAsync("CreditoActualizado", dto);
+            Console.WriteLine("✅ SignalR SendAsync ejecutado");
             // =============================
             // 7. Mapear y devolver DTO
             // =============================
-            return _mapper.Map<CreditoDTO>(credito);
+            return dto;
         }
 
 

@@ -125,5 +125,53 @@ namespace GestionIntApi.Repositorios.Implementacion
 
 
         }
+
+        public async Task<bool> UpdateDetalleFotos(DetalleCLienteFotosDTO modelo)
+        {
+            try
+            {
+                var DetlleModelo = _mapper.Map<DetalleCLienteFotosDTO>(modelo);
+                // Obtener el detalle existente
+                var detalleClienteEncontrado = await _DetalleRepositorio.Obtener(u => u.Id == DetlleModelo.Id);
+                if (detalleClienteEncontrado == null)
+                    throw new TaskCanceledException("El detalle no existe");
+
+                // Solo actualizar las fotos si vienen en el DTO
+                if (!string.IsNullOrEmpty(modelo.FotoClienteUrl))
+                    detalleClienteEncontrado.FotoClienteUrl = modelo.FotoClienteUrl;
+
+                if (!string.IsNullOrEmpty(modelo.FotoCelularEntregadoUrl))
+                    detalleClienteEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+
+                if (!string.IsNullOrEmpty(modelo.FotoContrato))
+                    detalleClienteEncontrado.FotoContrato = modelo.FotoContrato;
+
+                // Guardar cambios
+                bool respuesta = await _DetalleRepositorio.Editar(detalleClienteEncontrado);
+                return respuesta;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+
+        public async Task<DetalleClienteDTO> GetDetalleByClienteId(int clienteId)
+        {
+            try
+            {
+                var detalleEncontrado = await _DetalleRepositorio.Obtener(d => d.Cliente.Id == clienteId);
+
+                if (detalleEncontrado == null)
+                    throw new TaskCanceledException("Detalle de cliente no encontrado");
+
+                return _mapper.Map<DetalleClienteDTO>(detalleEncontrado);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

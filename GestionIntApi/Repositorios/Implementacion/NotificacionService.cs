@@ -32,7 +32,7 @@ namespace GestionIntApi.Repositorios.Implementacion
             foreach (var credito in creditos)
             {
                 // 1. PAGO MAÑANA
-                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(63).Date)
+                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(61).Date)
                 {
                     await CrearNotificacion(credito.ClienteId, "PagoMañana",
                         $"El cliente debe pagar mañana: {credito.ProximaCuota:dd/MM/yyyy}");
@@ -48,7 +48,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // 3. CLIENTE MOROSO (más de 5 días)
                 var diasAtraso = (DateTime.Now.Date - credito.ProximaCuota.Date).Days;
 
-                if (diasAtraso >= 5)
+                if (diasAtraso >= 1)
                 {
                     await CrearNotificacion(credito.ClienteId, "ClienteMoroso",
                         $"El cliente tiene {diasAtraso} días de atraso en el pago.");

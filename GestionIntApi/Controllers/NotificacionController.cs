@@ -2,6 +2,7 @@
 using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestionIntApi.Controllers
@@ -64,6 +65,36 @@ namespace GestionIntApi.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { mensaje = ex.Message });
+            }
+        }
+
+
+
+        [HttpGet("pendientesNotApp")]
+        [Authorize] // 🔒 Protegido con JWT
+        public async Task<ActionResult<List<NotificacionDTO>>> GetNotificacionesClienteApp()
+        {
+            try
+            {
+                // Obtener ClienteId del token
+                var clienteIdClaim = User.FindFirst("ClienteId")?.Value;
+                if (string.IsNullOrEmpty(clienteIdClaim))
+                    return Unauthorized("Token inválido o ClienteId no encontrado");
+
+                int clienteId = int.Parse(clienteIdClaim);
+
+                // Obtener todas las notificaciones
+                var allNotificaciones = await _NotificacionServicios.GetNotificaciones();
+
+                // Filtrar solo las del cliente logeado
+                var notificacionesCliente = allNotificaciones.FindAll(n => n.ClienteId == clienteId);
+
+                return Ok(notificacionesCliente);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex); // o usar ILogger
+                return StatusCode(500, $"Error al obtener las notificaciones: {ex.Message}");
             }
         }
 

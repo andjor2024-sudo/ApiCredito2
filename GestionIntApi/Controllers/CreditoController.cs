@@ -210,7 +210,41 @@ namespace GestionIntApi.Controllers
             return Ok(rsp);
         }
 
+        [HttpPost]
+        [Route("GuardarJWT")]
+        [Authorize] // Requiere JWT válido
+        public async Task<IActionResult> GuardarConJWT([FromBody] CreditoDTO credito)
+        {
+            var rsp = new Response<CreditoDTO>();
 
+            try
+            {
+                // 1️⃣ Obtener ClienteId desde el JWT
+                var clienteIdClaim = User.Claims.FirstOrDefault(c => c.Type == "ClienteId");
+                if (clienteIdClaim == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Cliente no identificado en el token.";
+                    return Unauthorized(rsp);
+                }
+
+                credito.ClienteId = int.Parse(clienteIdClaim.Value);
+
+                // 2️⃣ Crear el crédito usando el servicio
+                var nuevoCredito = await _CreditoServicios.CreateCredito(credito);
+
+                rsp.status = true;
+                rsp.msg = "Crédito registrado correctamente.";
+                rsp.value = nuevoCredito;
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
+        }
 
     }
 }

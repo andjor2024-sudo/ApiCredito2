@@ -14,6 +14,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         public async Task EnviarMensajeAlCliente(string clienteId, string mensaje)
         {
             await Clients.User(clienteId).SendAsync("RecibirMensaje", mensaje);
+            Console.WriteLine("✅ Evento SignalR enviado correctamente");
         }
 
         // Puedes sobrescribir métodos de conexión si quieres controlar la conexión

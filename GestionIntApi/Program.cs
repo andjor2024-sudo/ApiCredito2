@@ -41,7 +41,9 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 // ?? JWT ENV
-var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+builder.WebHost.UseUrls("http://0.0.0.0:7166");
+
+/*var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
 if (string.IsNullOrWhiteSpace(jwtSecret))
 {
@@ -51,9 +53,25 @@ if (string.IsNullOrWhiteSpace(jwtSecret))
 builder.Configuration["JwtSettings:SecretKey"] = jwtSecret;
 
 var key = Encoding.UTF8.GetBytes(jwtSecret);
+*/
+/*var jwtSecret =
+    Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
+    ?? "12345678901234567890123456789012";
 
+builder.Configuration["JwtSettings:SecretKey"] = jwtSecret;
 
+var key = Encoding.UTF8.GetBytes(jwtSecret);
+*/
+var jwtSecret =
+    Environment.GetEnvironmentVariable("JWT_SECRET_KEY")
+    ?? builder.Configuration["JwtSettings:SecretKey"];
 
+if (string.IsNullOrWhiteSpace(jwtSecret))
+{
+    throw new Exception("JWT_SECRET_KEY no configurada");
+}
+
+var key = Encoding.UTF8.GetBytes(jwtSecret);
 
 builder.WebHost.UseUrls("http://0.0.0.0:7166");
 
@@ -105,9 +123,7 @@ builder.Services.AddSignalR();
 
 
 builder.Configuration["SendGrid:ApiKey"] = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-builder.Configuration["JwtSettings:SecretKey"] = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
-
-
+//builder.Configuration["JwtSettings:SecretKey"] = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
 
 
@@ -120,18 +136,6 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("sqlConection")
     
     
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //builder.Services.AddTransient(typeof(IGenrericRepository<>), typeof(GenericRepository<>));

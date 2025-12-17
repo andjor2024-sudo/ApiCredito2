@@ -105,8 +105,22 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // Cálculo del TotalPagar (sin intereses)
                 modelo.MontoPendiente = modelo.MontoTotal-modelo.Entrada;
 
+                int totalCuotas = modelo.FrecuenciaPago.ToLower() switch
+                {
+                    "semanal" => modelo.PlazoCuotas * 4,
+                    "quincenal" => modelo.PlazoCuotas * 2,
+                    "mensual" => modelo.PlazoCuotas,
+                    _ => throw new Exception("Frecuencia de pago inválida")
+                };
+
+                // =============================
+                // 5. VALOR POR CUOTA REAL
+                // =============================
+                modelo.ValorPorCuota = Math.Round(
+                    modelo.MontoPendiente / totalCuotas, 2
+                );
                 // Cálculo de ValorPorCuota
-                modelo.ValorPorCuota = modelo.MontoPendiente / modelo.PlazoCuotas;
+              //  modelo.ValorPorCuota = modelo.MontoPendiente / modelo.PlazoCuotas;
 
                 // Cálculo de PróximaCuota según frecuencia
                 modelo.ProximaCuota = modelo.FrecuenciaPago.ToLower() switch

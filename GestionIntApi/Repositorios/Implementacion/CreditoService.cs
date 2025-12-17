@@ -3,6 +3,8 @@ using GestionIntApi.DTO;
 using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Interfaces;
+using Microsoft.AspNetCore.SignalR;
+
 namespace GestionIntApi.Repositorios.Implementacion
 {
     public class CreditoService: ICreditoService
@@ -13,15 +15,16 @@ namespace GestionIntApi.Repositorios.Implementacion
 
         private readonly IMapper _mapper;
         private readonly SistemaGestionDBcontext _context;
+        private readonly IHubContext<AdminHub> _hubContext;
 
 
-        public CreditoService(IGenericRepository<Credito> creditoRepository, IMapper mapper, SistemaGestionDBcontext context)
+        public CreditoService(IHubContext<AdminHub> hubContext, IGenericRepository<Credito> creditoRepository, IMapper mapper, SistemaGestionDBcontext context)
         {
 
             _creditoRepository = creditoRepository;
             _mapper = mapper;
             _context = context;
-
+            _hubContext = hubContext;
 
         }
 
@@ -274,7 +277,8 @@ namespace GestionIntApi.Repositorios.Implementacion
             // 6. Guardar cambios en BD
             // =============================
             await _creditoRepository.Editar(credito);
-
+            var dto = _mapper.Map<CreditoDTO>(credito);
+            await _hubContext.Clients.All.SendAsync("CreditoActualizado", dto);
             // =============================
             // 7. Mapear y devolver DTO
             // =============================

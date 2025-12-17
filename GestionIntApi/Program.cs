@@ -60,7 +60,6 @@ builder.WebHost.UseUrls("http://0.0.0.0:7166");
 
 //var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 //var key = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]);
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -78,12 +77,30 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero
     };
+
+    // ?? CLAVE PARA SIGNALR
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                path.StartsWithSegments("/adminhub"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 
 builder.Services.AddAuthorization();
 
 
-
+builder.Services.AddSignalR();
 
 
 
@@ -205,7 +222,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<AdminHub>("/adminhub");
 
 
 app.Run();

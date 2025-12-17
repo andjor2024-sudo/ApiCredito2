@@ -32,7 +32,7 @@ namespace GestionIntApi.Repositorios.Implementacion
             foreach (var credito in creditos)
             {
                 // 1. PAGO MAÑANA
-                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(1).Date)
+                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(63).Date)
                 {
                     await CrearNotificacion(credito.ClienteId, "PagoMañana",
                         $"El cliente debe pagar mañana: {credito.ProximaCuota:dd/MM/yyyy}");

@@ -117,7 +117,7 @@
               "RelativeDocumentMoniker": "GestionIntApi\\Program.cs",
               "ToolTip": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Program.cs",
               "RelativeToolTip": "GestionIntApi\\Program.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAAGoAAABfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-17T05:56:38.819Z",
               "EditorCaption": ""
@@ -132,8 +132,7 @@
               "RelativeToolTip": "GestionIntApi\\Repositorios\\Implementacion\\AdminHub.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAgwCgAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-17T05:51:51.199Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-17T05:51:51.199Z"
             },
             {
               "$type": "Document",
@@ -145,8 +144,7 @@
               "RelativeToolTip": "GestionIntApi\\Repositorios\\Implementacion\\ClienteService.cs",
               "ViewState": "AgIAAOgAAAAAAAAAAAAAANAAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-13T07:00:12.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-13T07:00:12.547Z"
             },
             {
               "$type": "Document",
@@ -158,8 +156,7 @@
               "RelativeToolTip": "GestionIntApi\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-12-15T20:26:26.612Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T20:26:26.612Z"
             },
             {
               "$type": "Document",
@@ -183,8 +180,7 @@
               "RelativeToolTip": "GestionIntApi\\Repositorios\\Implementacion\\CreditoService.cs",
               "ViewState": "AgIAANUAAAAAAAAAAAAmwBwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T22:20:18.324Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T22:20:18.324Z"
             },
             {
               "$type": "Document",

@@ -1,6 +1,7 @@
 ﻿using GestionIntApi.DTO;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestionIntApi.Controllers
@@ -118,6 +119,49 @@ namespace GestionIntApi.Controllers
             }
             return Ok(rsp);
         }
+
+        [HttpPut]
+        [Route("EditarFotosJWT")]
+        [Authorize]
+        public async Task<IActionResult> EditarFJWT([FromBody] DetalleClienteDTO detalle)
+        {
+            var rsp = new Response<bool>();
+            try
+            {
+                // Obtener ClienteId desde JWT
+                var clienteIdClaim = User.Claims.FirstOrDefault(c => c.Type == "ClienteId");
+                if (clienteIdClaim == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Cliente no identificado en el token.";
+                    return Unauthorized(rsp);
+                }
+
+                int clienteId = int.Parse(clienteIdClaim.Value);
+
+                // Traer el detalle actual asociado al cliente
+                var detalleExistente = await _detalleClienteServicios.GetDetalleByClienteId(clienteId);
+                if (detalleExistente == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Detalle del cliente no encontrado.";
+                    return NotFound(rsp);
+                }
+
+                // Asignar el Id correcto al DTO para el Update
+                detalle.Id = detalleExistente.Id;
+
+                rsp.status = true;
+                rsp.value = await _detalleClienteServicios.UpdateDetalle(detalle);
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+            return Ok(rsp);
+        }
+
 
     }
 }

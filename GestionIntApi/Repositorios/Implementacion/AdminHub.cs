@@ -38,7 +38,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                 Console.WriteLine("⚠️ ClienteId NULL → NO agregado a grupo");
 
             }
-
+    
             await base.OnConnectedAsync();
         }
 

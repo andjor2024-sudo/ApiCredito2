@@ -172,5 +172,91 @@ namespace GestionIntApi.Controllers
             }
             return Ok(rsp);
         }
+
+
+        [HttpPut]
+        [Route("ActualizarTiendaJWT")]
+        [Authorize] // Requiere JWT válido
+        public async Task<IActionResult> GuardarTinedaConJWT([FromBody] TiendaDTO tienda)
+        {
+            var rsp = new Response<TiendaDTO>();
+
+            try
+            {
+                // 1️⃣ Obtener ClienteId desde el JWT
+                var clienteIdClaim = User.Claims.FirstOrDefault(c => c.Type == "ClienteId");
+                if (clienteIdClaim == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Cliente no identificado en el token.";
+                    return Unauthorized(rsp);
+                }
+
+                tienda.ClienteId = int.Parse(clienteIdClaim.Value);
+
+                // 2️⃣ Crear el crédito usando el servicio
+                bool actualizado = await _TiendaServicios.UpdateTienda(tienda);
+                if (actualizado) {
+                    rsp.status = true;
+                    rsp.msg = "Crédito actulizada correctamente.";
+                    rsp.value = tienda;
+
+                }
+                else
+                {
+                    rsp.status = false;
+                    rsp.msg = "No se pudo actualizar la tienda.";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
+        }
+
+
+        [HttpPost]
+        [Route("GuardarTiendaJWT")]
+        [Authorize] // Requiere JWT válido
+        public async Task<IActionResult> GuardarTinedaConJWT1([FromBody] TiendaDTO tienda)
+        {
+            var rsp = new Response<TiendaDTO>();
+
+            try
+            {
+                // 1️⃣ Obtener ClienteId desde el JWT
+                var clienteIdClaim = User.Claims.FirstOrDefault(c => c.Type == "ClienteId");
+                if (clienteIdClaim == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Cliente no identificado en el token.";
+                    return Unauthorized(rsp);
+                }
+
+                tienda.ClienteId = int.Parse(clienteIdClaim.Value);
+
+                // 2️⃣ Crear el crédito usando el servicio
+                var tiendaNueva = await _TiendaServicios.CreateTienda(tienda);
+               
+                    rsp.status = true;
+                    rsp.msg = "Crédito actulizada correctamente.";
+                    rsp.value = tiendaNueva;
+
+                
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
+        }
+
+
     }
 }

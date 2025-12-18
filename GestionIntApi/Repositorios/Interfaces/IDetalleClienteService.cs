@@ -11,6 +11,8 @@ namespace GestionIntApi.Repositorios.Interfaces
         Task<bool> UpdateDetalle( DetalleClienteDTO detalleDto);
         Task<bool> DeleteDetalle(int id);
 
+        Task<DetalleClienteDTO> GetDetalleByClienteId(int clienteId);
+
 
     }
 }

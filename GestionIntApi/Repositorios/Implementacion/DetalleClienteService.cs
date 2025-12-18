@@ -173,5 +173,6 @@ namespace GestionIntApi.Repositorios.Implementacion
                 throw;
             }
         }
+
     }
 }

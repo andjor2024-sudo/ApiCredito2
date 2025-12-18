@@ -3,6 +3,7 @@ using GestionIntApi.DTO;
 using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Interfaces;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
 
 namespace GestionIntApi.Repositorios.Implementacion
@@ -131,7 +132,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                     _ => modelo.DiaPago
                 };
 
-
+                // =============================
+              
 
                 // =============================
                 // 5. Actualizar estado
@@ -248,38 +250,57 @@ namespace GestionIntApi.Repositorios.Implementacion
 
             credito.MontoPendiente -= pago.MontoPagado;
 
-            if (credito.MontoPendiente < 0)
-                credito.MontoPendiente = 0; // evitar negativo
+            // if (credito.MontoPendiente < 0)
+            //   credito.MontoPendiente = 0; // evitar negativo
 
 
             // =============================
-            // 4. Calcular Próxima Cuota
+            // Ajustes si ya se pagó completo
             // =============================
-
-            // Si la fecha viene vacía o inválida → corregimos
-            if (credito.ProximaCuota.Year < 2000)
-                credito.ProximaCuota = DateTime.UtcNow;
-
-          
-
-            switch (credito.FrecuenciaPago.ToLower())
+            if (credito.MontoPendiente <= 0)
             {
-                case "semanal":
-                    credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
-                    break;
-
-                case "quincenal":
-                    credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
-                    break;
-
-                case "mensual":
-                    credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
-                    break;
+                credito.MontoPendiente = 0;
+                credito.ValorPorCuota = 0;
+                credito.ProximaCuota = credito.DiaPago; // fecha del último pago
+                credito.Estado = "Pagado";
             }
+            else {
 
-            // Asegurar Kind = UTC
-            credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
 
+
+                // =============================
+                // 4. Calcular Próxima Cuota
+                // =============================
+
+                // Si la fecha viene vacía o inválida → corregimos
+                if (credito.ProximaCuota.Year < 2000)
+                    credito.ProximaCuota = DateTime.UtcNow;
+
+
+
+                switch (credito.FrecuenciaPago.ToLower())
+                {
+                    case "semanal":
+                        credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
+                        break;
+
+                    case "quincenal":
+                        credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
+                        break;
+
+                    case "mensual":
+                        credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
+                        break;
+                }
+
+                // Asegurar Kind = UTC
+                credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
+
+
+
+
+
+            }
 
             // =============================
             // 5. Actualizar estado

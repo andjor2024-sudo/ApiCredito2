@@ -340,6 +340,22 @@
   },
   {
     "ContainingType": "GestionIntApi.Controllers.DetalleClienteController",
+    "Method": "EditarFJWT",
+    "RelativePath": "api/DetalleCliente/EditarFotosJWT",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "detalle",
+        "Type": "GestionIntApi.DTO.DetalleClienteDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.DetalleClienteController",
     "Method": "Eliminar",
     "RelativePath": "api/DetalleCliente/Eliminar/{id}",
     "HttpMethod": "DELETE",
@@ -569,6 +585,22 @@
   },
   {
     "ContainingType": "GestionIntApi.Controllers.TiendaController",
+    "Method": "GuardarTinedaConJWT",
+    "RelativePath": "api/Tienda/ActualizarTiendaJWT",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tienda",
+        "Type": "GestionIntApi.DTO.TiendaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.TiendaController",
     "Method": "Editar",
     "RelativePath": "api/Tienda/Editar",
     "HttpMethod": "PUT",
@@ -603,6 +635,22 @@
     "ContainingType": "GestionIntApi.Controllers.TiendaController",
     "Method": "Guardar",
     "RelativePath": "api/Tienda/Guardar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tienda",
+        "Type": "GestionIntApi.DTO.TiendaDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.TiendaController",
+    "Method": "GuardarTinedaConJWT1",
+    "RelativePath": "api/Tienda/GuardarTiendaJWT",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

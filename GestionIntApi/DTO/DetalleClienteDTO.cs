@@ -29,10 +29,6 @@ namespace GestionIntApi.DTO
 
 
 
-        [Url(ErrorMessage = "La URL del contrato no es válida")]
-        public string FotoContrato { get; set; }
-
-        [Url(ErrorMessage = "La URL de la foto del celular entregado no es válida")]
-        public string FotoCelularEntregadoUrl { get; set; }
+       
     }
 }

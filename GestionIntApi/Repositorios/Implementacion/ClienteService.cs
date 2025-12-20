@@ -86,13 +86,15 @@ namespace GestionIntApi.Repositorios.Implementacion
 
                 cliente = await _clienteRepository2.Crear(cliente);
 
+                var tiendasCreadas = new List<Tienda>();
                 // 3. Guardar tiendas si existen
                 if (modelo.Tiendas != null)
                 {
                     foreach (var t in modelo.Tiendas)
                     {
                         t.ClienteId = cliente.Id;
-                        await _TiendaRepositorio.Crear(_mapper.Map<Tienda>(t));
+                        var tiendaCreada=await _TiendaRepositorio.Crear(_mapper.Map<Tienda>(t));
+                        tiendasCreadas.Add(tiendaCreada);
                     }
                 }
 
@@ -102,6 +104,11 @@ namespace GestionIntApi.Repositorios.Implementacion
                     foreach (var c in modelo.Creditos)
                     {
                         c.ClienteId = cliente.Id;
+
+                        if (tiendasCreadas.Any())
+                            c.TiendaId = tiendasCreadas.First().Id;
+                        else
+                            c.TiendaId = null;
 
                         // 🚀 Aquí se hace todo: validaciones, cálculos y guardado
                         await _CreditoServicio.CreateCredito(c);

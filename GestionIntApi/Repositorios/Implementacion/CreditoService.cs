@@ -184,6 +184,10 @@ namespace GestionIntApi.Repositorios.Implementacion
                 TiendaEncontrado.PlazoCuotas = modelo.PlazoCuotas;
                 TiendaEncontrado.FrecuenciaPago = modelo.FrecuenciaPago;
                 TiendaEncontrado.DiaPago = modelo.DiaPago;
+                TiendaEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+                TiendaEncontrado.FotoContrato = modelo.FotoContrato;
+                // detalleClienteEncontrado.FotoContrato = DetlleModelo.FotoContrato;
+
 
                 // 🔥 Recalcular correctamente
                 TiendaEncontrado.MontoPendiente = TiendaEncontrado.MontoTotal - TiendaEncontrado.Entrada;
@@ -227,7 +231,7 @@ namespace GestionIntApi.Repositorios.Implementacion
 
 
         }
-        public async Task<CreditoDTO> RegistrarPagoAsync(PagoCreditoDTO pago)
+        public async Task<PagarCreditoDTO> RegistrarPagoAsync(PagoCreditoDTO pago)
         {
             // 1. Buscar el crédito por Id
             var credito = await _creditoRepository.Obtener(u => u.Id == pago.CreditoId);
@@ -240,19 +244,23 @@ namespace GestionIntApi.Repositorios.Implementacion
             // =============================
             credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
             credito.DiaPago = DateTime.SpecifyKind(credito.DiaPago, DateTimeKind.Utc);
-            credito.FechaCreacion = DateTime.SpecifyKind(credito.FechaCreacion, DateTimeKind.Utc);
 
+            credito.FechaCreacion = DateTime.SpecifyKind(credito.FechaCreacion, DateTimeKind.Utc);
+            
             // =============================
             // 3. Restar monto pagado 
             // =============================
             if (pago.MontoPagado <= 0)
                 throw new Exception("El monto pagado debe ser mayor a 0");
 
+            if (pago.MontoPagado > credito.MontoPendiente)
+                throw new Exception(
+                    $"El monto pagado ({pago.MontoPagado}) no puede ser mayor al saldo pendiente ({credito.MontoPendiente})"
+                );
             credito.MontoPendiente -= pago.MontoPagado;
 
             // if (credito.MontoPendiente < 0)
             //   credito.MontoPendiente = 0; // evitar negativo
-
 
             // =============================
             // Ajustes si ya se pagó completo
@@ -312,7 +320,18 @@ namespace GestionIntApi.Repositorios.Implementacion
             // 6. Guardar cambios en BD
             // =============================
             await _creditoRepository.Editar(credito);
-            var dto = _mapper.Map<CreditoDTO>(credito);
+            var dto = _mapper.Map<PagarCreditoDTO>(credito);
+
+
+            // 🔹 Calcular proximaCuotaStr como en GetCreditosClienteApp
+            dto.ProximaCuotaStr = credito.ProximaCuota.ToString("dd/MM/yyyy");
+
+            if (credito.Estado == "Pagado")
+            {
+                dto.TiendaId = null;
+                dto.NombreTienda = null;
+            }
+
 
             await _hubContext.Clients.All.SendAsync("CreditoActualizado", dto);
             Console.WriteLine("✅ SignalR SendAsync ejecutado");

@@ -152,7 +152,7 @@ namespace GestionIntApi.Controllers
         [Route("RegistrarPago")]
         public async Task<IActionResult> GuardarPago([FromBody] PagoCreditoDTO credito)
         {
-            var rsp = new Response<CreditoDTO>();
+            var rsp = new Response<PagarCreditoDTO>();
 
             try
             {

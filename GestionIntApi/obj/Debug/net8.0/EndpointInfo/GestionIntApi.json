@@ -1593,6 +1593,16 @@
             "type": "string",
             "nullable": true
           },
+          "fotoContrato": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "fotoCelularEntregadoUrl": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
           "fechaCreacion": {
             "type": "string",
             "format": "date-time"
@@ -1600,6 +1610,11 @@
           "clienteId": {
             "type": "integer",
             "format": "int32"
+          },
+          "tiendaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1671,16 +1686,6 @@
             "type": "string"
           },
           "fotoClienteUrl": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true
-          },
-          "fotoContrato": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true
-          },
-          "fotoCelularEntregadoUrl": {
             "type": "string",
             "format": "uri",
             "nullable": true

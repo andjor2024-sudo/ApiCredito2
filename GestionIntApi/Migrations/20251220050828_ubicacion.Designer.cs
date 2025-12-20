@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionIntApi.Migrations
 {
     [DbContext(typeof(SistemaGestionDBcontext))]
-    [Migration("20251212053813_SeedDataInicial")]
-    partial class SeedDataInicial
+    [Migration("20251220050828_ubicacion")]
+    partial class ubicacion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -74,6 +74,14 @@ namespace GestionIntApi.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("FotoCelularEntregadoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FotoContrato")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FrecuenciaPago")
                         .IsRequired()
                         .HasColumnType("text");
@@ -90,6 +98,9 @@ namespace GestionIntApi.Migrations
                     b.Property<DateTime>("ProximaCuota")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("TiendaId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("TotalPagar")
                         .HasColumnType("numeric");
 
@@ -99,6 +110,8 @@ namespace GestionIntApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("TiendaId");
 
                     b.ToTable("Creditos");
                 });
@@ -115,15 +128,7 @@ namespace GestionIntApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FotoCelularEntregadoUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FotoClienteUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FotoContrato")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -401,6 +406,31 @@ namespace GestionIntApi.Migrations
                     b.ToTable("Tiendas");
                 });
 
+            modelBuilder.Entity("GestionIntApi.Models.Ubicacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Latitud")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitud")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ubicacions");
+                });
+
             modelBuilder.Entity("GestionIntApi.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -489,7 +519,13 @@ namespace GestionIntApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GestionIntApi.Models.Tienda", "Tienda")
+                        .WithMany()
+                        .HasForeignKey("TiendaId");
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("Tienda");
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.MenuRol", b =>

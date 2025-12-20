@@ -96,8 +96,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                 detalleClienteEncontrado.Direccion = DetlleModelo.Direccion;
                 
                 detalleClienteEncontrado.FotoClienteUrl = DetlleModelo.FotoClienteUrl;
-                detalleClienteEncontrado.FotoCelularEntregadoUrl = DetlleModelo.FotoCelularEntregadoUrl;
-                detalleClienteEncontrado.FotoContrato = DetlleModelo.FotoContrato;
+              //  detalleClienteEncontrado.FotoCelularEntregadoUrl = DetlleModelo.FotoCelularEntregadoUrl;
+               // detalleClienteEncontrado.FotoContrato = DetlleModelo.FotoContrato;
                 bool respuesta = await _DetalleRepositorio.Editar(detalleClienteEncontrado);
                 return respuesta;
             }
@@ -140,11 +140,11 @@ namespace GestionIntApi.Repositorios.Implementacion
                 if (!string.IsNullOrEmpty(modelo.FotoClienteUrl))
                     detalleClienteEncontrado.FotoClienteUrl = modelo.FotoClienteUrl;
 
-                if (!string.IsNullOrEmpty(modelo.FotoCelularEntregadoUrl))
-                    detalleClienteEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+               // if (!string.IsNullOrEmpty(modelo.FotoCelularEntregadoUrl))
+                 //   detalleClienteEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
 
-                if (!string.IsNullOrEmpty(modelo.FotoContrato))
-                    detalleClienteEncontrado.FotoContrato = modelo.FotoContrato;
+                //if (!string.IsNullOrEmpty(modelo.FotoContrato))
+                  //  detalleClienteEncontrado.FotoContrato = modelo.FotoContrato;
 
                 // Guardar cambios
                 bool respuesta = await _DetalleRepositorio.Editar(detalleClienteEncontrado);

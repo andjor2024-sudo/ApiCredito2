@@ -10,8 +10,7 @@
         public string Direccion { get; set; }
 
         public string FotoClienteUrl { get; set; }
-        public string FotoCelularEntregadoUrl { get; set; }
-        public string FotoContrato { get; set; }
+
         public Cliente Cliente { get; set; }
     }
 }

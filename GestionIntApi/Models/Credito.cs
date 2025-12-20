@@ -20,12 +20,17 @@
         public DateTime ProximaCuota { get; set; }
 
         public string Estado { get; set; }
+        public string FotoCelularEntregadoUrl { get; set; }
+        public string FotoContrato { get; set; }
 
         public DateTime FechaCreacion { get; set; }
 
         // FK a Cliente
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
+
+        public int? TiendaId { get; set; }
+        public Tienda Tienda { get; set; } 
         // public ICollection<Cliente> Clientes { get; set; }
     }
 }

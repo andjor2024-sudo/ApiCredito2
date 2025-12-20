@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionIntApi.Migrations
 {
     [DbContext(typeof(SistemaGestionDBcontext))]
-    [Migration("20251212051205_Inicial")]
-    partial class Inicial
+    [Migration("20251219222652_CreditoConTienda")]
+    partial class CreditoConTienda
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.0")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -74,6 +74,14 @@ namespace GestionIntApi.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("FotoCelularEntregadoUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FotoContrato")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FrecuenciaPago")
                         .IsRequired()
                         .HasColumnType("text");
@@ -90,6 +98,9 @@ namespace GestionIntApi.Migrations
                     b.Property<DateTime>("ProximaCuota")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("TiendaId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("TotalPagar")
                         .HasColumnType("numeric");
 
@@ -99,6 +110,8 @@ namespace GestionIntApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("TiendaId");
 
                     b.ToTable("Creditos");
                 });
@@ -115,15 +128,7 @@ namespace GestionIntApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FotoCelularEntregadoUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("FotoClienteUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FotoContrato")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -192,6 +197,50 @@ namespace GestionIntApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Menus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Icono = "dashboard",
+                            Nombre = "DashBoard",
+                            Url = "/pages/dashboard"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Icono = "group",
+                            Nombre = "Usuarios",
+                            Url = "/pages/usuarios"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Icono = "fa-user",
+                            Nombre = "Clientes",
+                            Url = "/clientes"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Icono = "currency_exchange",
+                            Nombre = "Venta",
+                            Url = "/pages/venta"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Icono = "edit_note",
+                            Nombre = "Historial",
+                            Url = "/pages/historial_venta"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Icono = "receipt",
+                            Nombre = "Reportes",
+                            Url = "/pages/reportes"
+                        });
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.MenuRol", b =>
@@ -215,6 +264,44 @@ namespace GestionIntApi.Migrations
                     b.HasIndex("RolId");
 
                     b.ToTable("MenuRols");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MenuId = 1,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MenuId = 2,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            MenuId = 3,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            MenuId = 4,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MenuId = 5,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            MenuId = 6,
+                            RolId = 1
+                        });
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.Notificacion", b =>
@@ -266,6 +353,20 @@ namespace GestionIntApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rol");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Descripcion = "Administrador",
+                            FechaRegistro = new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Descripcion = "Cliente",
+                            FechaRegistro = new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.Tienda", b =>
@@ -393,7 +494,13 @@ namespace GestionIntApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GestionIntApi.Models.Tienda", "Tienda")
+                        .WithMany()
+                        .HasForeignKey("TiendaId");
+
                     b.Navigation("Cliente");
+
+                    b.Navigation("Tienda");
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.MenuRol", b =>

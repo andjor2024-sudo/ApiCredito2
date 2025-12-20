@@ -49,6 +49,34 @@ namespace GestionIntApi.Controllers
         [HttpPost("EnviarCodigo1")]
         public async Task<IActionResult> EnviarCodigo([FromBody] UsuarioDTO usuario)
         {
+
+            // --- LOGS ---
+            Console.WriteLine("===== USUARIO RECIBIDO =====");
+            Console.WriteLine($"Nombre: {usuario.NombreApellidos}");
+            Console.WriteLine($"Correo: {usuario.Correo}");
+            if (usuario.Cliente != null)
+            {
+                Console.WriteLine("Cliente existe");
+                if (usuario.Cliente.Creditos != null)
+                {
+                    foreach (var c in usuario.Cliente.Creditos)
+                    {
+                        Console.WriteLine("----- Credito -----");
+                        Console.WriteLine($"MontoTotal: {c.MontoTotal}");
+                        Console.WriteLine($"FotoContrato: {c.FotoContrato}");
+                        Console.WriteLine($"FotoCelularEntregadoUrl: {c.FotoCelularEntregadoUrl}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No hay créditos");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cliente es null");
+            }
+
             var correo = usuario.Correo;
 
             var codigo = new Random().Next(100000, 999999).ToString();

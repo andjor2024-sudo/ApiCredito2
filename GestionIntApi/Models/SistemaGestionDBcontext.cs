@@ -31,7 +31,7 @@ namespace GestionIntApi.Models
 
         public DbSet<Notificacion> Notificacions { get; set; }
 
-
+        public DbSet<Ubicacion> Ubicacions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -2,9 +2,8 @@
 
 namespace GestionIntApi.DTO
 {
-    public class CreditoDTO
+    public class PagarCreditoDTO
     {
-
         public int Id { get; set; }
 
         [Required(ErrorMessage = "La entrada es obligatoria")]
@@ -34,14 +33,11 @@ namespace GestionIntApi.DTO
         public string? ProximaCuotaStr { get; set; }
         public string? Estado { get; set; }
 
-        [Url(ErrorMessage = "La URL del contrato no es válida")]
-        public string FotoContrato { get; set; }
-
-        [Url(ErrorMessage = "La URL de la foto del celular entregado no es válida")]
-        public string FotoCelularEntregadoUrl { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int ClienteId { get; set; }
-
-        public int? TiendaId { get; set; }
+        // Información opcional de la tienda
+        public int? TiendaId { get; set; }           // nullable
+        public string? NombreTienda { get; set; }    // nullable
     }
 }
+

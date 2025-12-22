@@ -9,6 +9,7 @@ namespace GestionIntApi.DTO
         public string NombreEncargado { get; set; }
         public string Telefono { get; set; }
         public int ClienteId { get; set; }
+  
 
     }
 }

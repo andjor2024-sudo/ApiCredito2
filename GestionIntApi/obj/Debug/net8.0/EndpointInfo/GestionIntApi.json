@@ -715,6 +715,37 @@
         }
       }
     },
+    "/api/EmailValidation/EnviarCodigoBD": {
+      "post": {
+        "tags": [
+          "EmailValidation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/EmailValidation/ValidarCodigo": {
       "post": {
         "tags": [
@@ -735,6 +766,37 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/VerificationCode"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/EmailValidation/ValidarCodigoconBD": {
+      "post": {
+        "tags": [
+          "EmailValidation"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationRequestDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationRequestDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificationRequestDTO"
               }
             }
           }
@@ -1626,6 +1688,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "montoTotal": {
+            "type": "number",
+            "format": "double"
+          },
           "montoPendiente": {
             "type": "number",
             "format": "double"
@@ -1843,6 +1909,10 @@
           "clienteId": {
             "type": "integer",
             "format": "int32"
+          },
+          "tiendaId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1910,6 +1980,23 @@
           "expira": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VerificationRequestDTO": {
+        "type": "object",
+        "properties": {
+          "correo": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigo": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/UsuarioDTO"
           }
         },
         "additionalProperties": false

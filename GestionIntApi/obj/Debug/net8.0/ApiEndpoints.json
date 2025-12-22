@@ -430,7 +430,23 @@
   },
   {
     "ContainingType": "GestionIntApi.Controllers.EmailValidationController",
-    "Method": "ValidarCodigo",
+    "Method": "EnviarCodigo2",
+    "RelativePath": "api/EmailValidation/EnviarCodigoBD",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuario",
+        "Type": "GestionIntApi.DTO.UsuarioDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.EmailValidationController",
+    "Method": "ValidarCodigo1",
     "RelativePath": "api/EmailValidation/ValidarCodigo",
     "HttpMethod": "POST",
     "IsController": true,
@@ -439,6 +455,22 @@
       {
         "Name": "req",
         "Type": "GestionIntApi.Models.VerificationCode",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.EmailValidationController",
+    "Method": "ValidarCodigo",
+    "RelativePath": "api/EmailValidation/ValidarCodigoconBD",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "GestionIntApi.DTO.VerificationRequestDTO",
         "IsRequired": true
       }
     ],

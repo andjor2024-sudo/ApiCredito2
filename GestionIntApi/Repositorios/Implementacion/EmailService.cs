@@ -128,6 +128,8 @@ namespace GestionIntApi.Repositorios.Implementacion
 
             var response = await client.SendEmailAsync(msg);
 
+
+
             Console.WriteLine($"📡 [SENDGRID] StatusCode: {(int)response.StatusCode}");
 
             if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)

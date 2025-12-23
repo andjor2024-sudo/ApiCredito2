@@ -282,6 +282,52 @@
   },
   {
     "ContainingType": "GestionIntApi.Controllers.CreditoController",
+    "Method": "GetByIdCreditoActivoApp1",
+    "RelativePath": "api/Credito/pendientesApp1",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[GestionIntApi.DTO.CreditoMostrarDTO, GestionIntApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.CreditoController",
+    "Method": "GetByIdCreditoActivoApp",
+    "RelativePath": "api/Credito/pendientesAppConId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "clienteId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[GestionIntApi.DTO.CreditoMostrarDTO, GestionIntApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.CreditoController",
     "Method": "GuardarPago",
     "RelativePath": "api/Credito/RegistrarPago",
     "HttpMethod": "POST",

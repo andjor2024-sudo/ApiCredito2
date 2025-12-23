@@ -300,6 +300,92 @@
         }
       }
     },
+    "/api/Credito/pendientesAppConId": {
+      "get": {
+        "tags": [
+          "Credito"
+        ],
+        "parameters": [
+          {
+            "name": "clienteId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Credito/pendientesApp1": {
+      "get": {
+        "tags": [
+          "Credito"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CreditoMostrarDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Credito/pendientesApp": {
       "get": {
         "tags": [
@@ -1715,6 +1801,11 @@
           "clienteId": {
             "type": "integer",
             "format": "int32"
+          },
+          "tiendaId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1907,10 +1998,6 @@
             "nullable": true
           },
           "clienteId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tiendaId": {
             "type": "integer",
             "format": "int32"
           }

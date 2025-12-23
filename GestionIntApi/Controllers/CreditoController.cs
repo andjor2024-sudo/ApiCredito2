@@ -49,6 +49,7 @@ namespace GestionIntApi.Controllers
         {
             try
             {
+                Console.WriteLine("🔵 Endpoint pendientesApp llamado");
                 var odontologo = await _CreditoServicios.GetTiendaById(id);
                 if (odontologo == null)
                     return NotFound();
@@ -66,6 +67,7 @@ namespace GestionIntApi.Controllers
         {
             try
             {
+                Console.WriteLine("🔵 Endpoint pendientesApp llamado");
                 var credito = await _CreditoServicios.GetCreditosPendientesPorCliente(id);
                 if (credito == null)
                     return NotFound();
@@ -81,6 +83,7 @@ namespace GestionIntApi.Controllers
         {
             try
             {
+                Console.WriteLine("🔵 Endpoint pendientesApp llamado");
                 var credito = await _CreditoServicios.GetCreditosPendientesPorCliente1(clienteId);
                 if (credito == null)
                     return NotFound();
@@ -91,10 +94,33 @@ namespace GestionIntApi.Controllers
                 return StatusCode(500, "Error al obtener el credito por ID");
             }
         }
-        [HttpGet("pendientesApp")]
+
+
+        [HttpGet("pendientesAppConId")]
+
+        public async Task<ActionResult<List<CreditoMostrarDTO>>> GetByIdCreditoActivoApp(int clienteId)
+        {
+            try
+            {
+
+
+
+                var credito = await _CreditoServicios.GetCreditosClienteApp(clienteId);
+                if (credito == null)
+                    return NotFound();
+                return Ok(credito);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex); // o usar ILogger
+                return StatusCode(500, $"Error al obtener los créditos: {ex.Message}");
+
+            }
+        }
+        [HttpGet("pendientesApp1")]
 
         [Authorize] // 🔒 Protegido con JWT
-        public async Task<ActionResult<List<CreditoMostrarDTO>>> GetByIdCreditoActivoApp()
+        public async Task<ActionResult<List<CreditoMostrarDTO>>> GetByIdCreditoActivoApp1()
         {
             try
             {
@@ -119,6 +145,60 @@ namespace GestionIntApi.Controllers
 
             }
         }
+
+
+        [HttpGet("pendientesApp")]
+        [Authorize]
+        public async Task<ActionResult<List<CreditoMostrarDTO>>> GetByIdCreditoActivoApp()
+        {
+            try
+            {
+                Console.WriteLine("🔵 Endpoint pendientesApp llamado");
+
+                var clienteIdClaim = User.FindFirst("ClienteId")?.Value;
+                Console.WriteLine($"🆔 ClienteId claim: {clienteIdClaim}");
+
+                if (string.IsNullOrEmpty(clienteIdClaim))
+                {
+                    Console.WriteLine("❌ ClienteId no encontrado en el token");
+                    return Unauthorized("Token inválido o ClienteId no encontrado");
+                }
+
+                int clienteId = int.Parse(clienteIdClaim);
+                Console.WriteLine($"✅ ClienteId parseado: {clienteId}");
+
+                var creditos = await _CreditoServicios.GetCreditosClienteApp(clienteId);
+
+                if (creditos == null)
+                {
+                    Console.WriteLine("⚠️ No se encontraron créditos");
+                    return NotFound();
+                }
+
+                Console.WriteLine($"📦 Créditos encontrados: {creditos.Count}");
+
+                // 🔥 LOG CLAVE: ver qué se está enviando
+                foreach (var c in creditos)
+                {
+                    Console.WriteLine("----- CRÉDITO -----");
+                    Console.WriteLine($"Id: {c.Id}");
+                    Console.WriteLine($"MontoTotal: {c.MontoTotal}");
+                    Console.WriteLine($"TiendaId: {c.TiendaId}");
+                    Console.WriteLine($"Estado: {c.Estado}");
+                }
+
+                return Ok(creditos);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("❌ ERROR en pendientesApp");
+                Console.WriteLine(ex);
+
+                return StatusCode(500, $"Error al obtener los créditos: {ex.Message}");
+            }
+        }
+
+
 
         [HttpPost]
         [Route("Guardar")]

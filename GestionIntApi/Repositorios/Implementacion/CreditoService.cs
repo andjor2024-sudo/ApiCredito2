@@ -110,7 +110,11 @@ namespace GestionIntApi.Repositorios.Implementacion
                     throw new ArgumentException("El plazo de cuotas debe ser mayor a cero.");
 
                 // Cálculo del TotalPagar (sin intereses)
-                modelo.MontoPendiente = modelo.MontoTotal-modelo.Entrada;
+                // modelo.MontoPendiente = modelo.MontoTotal-modelo.Entrada;
+                // 3️⃣ Monto pendiente real
+                modelo.MontoPendiente = Math.Round(
+                    modelo.MontoTotal - modelo.Entrada, 2
+                );
 
 
 
@@ -119,11 +123,19 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // =============================
                 // 5. VALOR POR CUOTA REAL
                 // =============================
-                modelo.ValorPorCuota = Math.Round(
-                    modelo.MontoPendiente / totalCuotas, 2
-                );
+
+                // 4️⃣ Valor por cuota BASE (NO PROBLEMA)
+                decimal valorBase = Math.Floor(
+                    (modelo.MontoPendiente / totalCuotas) * 100
+                ) / 100;
+
+                //modelo.ValorPorCuota = valorBase;
+                modelo.ValorPorCuota = valorBase > 0 ? valorBase : modelo.MontoPendiente;
+                //  modelo.ValorPorCuota = Math.Round(
+                //   modelo.MontoPendiente / totalCuotas, 2
+                //);
                 // Cálculo de ValorPorCuota
-              //  modelo.ValorPorCuota = modelo.MontoPendiente / modelo.PlazoCuotas;
+                //  modelo.ValorPorCuota = modelo.MontoPendiente / modelo.PlazoCuotas;
 
                 // Cálculo de PróximaCuota según frecuencia
                 modelo.ProximaCuota = modelo.FrecuenciaPago.ToLower() switch
@@ -316,10 +328,18 @@ namespace GestionIntApi.Repositorios.Implementacion
             if (pago.MontoPagado <= 0)
                 throw new Exception("El monto pagado debe ser mayor a 0");
 
+            //  if (pago.MontoPagado > credito.MontoPendiente)
+            //    throw new Exception(
+            //      $"El monto pagado ({pago.MontoPagado}) no puede ser mayor al saldo pendiente ({credito.MontoPendiente})"
+            // );
+
+            // 🔑 ÚLTIMA CUOTA – ajuste automático
             if (pago.MontoPagado > credito.MontoPendiente)
-                throw new Exception(
-                    $"El monto pagado ({pago.MontoPagado}) no puede ser mayor al saldo pendiente ({credito.MontoPendiente})"
-                );
+            {
+                pago.MontoPagado = credito.MontoPendiente;
+            }
+
+
             credito.MontoPendiente -= pago.MontoPagado;
             credito.AbonadoTotal += pago.MontoPagado;
 // total del crédito
@@ -341,43 +361,6 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
             else {
 
-
-
-                // =============================
-                // 4. Calcular Próxima Cuota
-                // =============================
-            /*    if (pago.MontoPagado >= credito.ValorPorCuota)
-                {
-
-                    credito.EstadoCuota = "Pagada";
-                    // Si la fecha viene vacía o inválida → corregimos
-                    if (credito.ProximaCuota.Year < 2000)
-                            credito.ProximaCuota = DateTime.UtcNow;
-
-
-
-                        switch (credito.FrecuenciaPago.ToLower())
-                        {
-                            case "semanal":
-                                credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
-                                break;
-
-                            case "quincenal":
-                                credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
-                                break;
-
-                            case "mensual":
-                                credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
-                                break;
-                        }
-                            credito.AbonadoCuota = 0m;
-                    // Asegurar Kind = UTC
-                    credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
-
-
-
-
-                } */
 
                 while (credito.AbonadoCuota >= credito.ValorPorCuota && credito.MontoPendiente > 0)
                 {

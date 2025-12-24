@@ -1751,6 +1751,26 @@
             "format": "uri",
             "nullable": true
           },
+          "marca": {
+            "type": "string",
+            "nullable": true
+          },
+          "modelo": {
+            "type": "string",
+            "nullable": true
+          },
+          "abonadoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "abonadoCuota": {
+            "type": "number",
+            "format": "double"
+          },
+          "estadoCuota": {
+            "type": "string",
+            "nullable": true
+          },
           "fechaCreacion": {
             "type": "string",
             "format": "date-time"
@@ -1782,6 +1802,10 @@
             "type": "number",
             "format": "double"
           },
+          "fechaCreditoStr": {
+            "type": "string",
+            "nullable": true
+          },
           "proximaCuotaStr": {
             "type": "string",
             "nullable": true
@@ -1795,6 +1819,26 @@
             "format": "double"
           },
           "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "marca": {
+            "type": "string",
+            "nullable": true
+          },
+          "modelo": {
+            "type": "string",
+            "nullable": true
+          },
+          "abonadoTotal": {
+            "type": "number",
+            "format": "double"
+          },
+          "abonadoCuota": {
+            "type": "number",
+            "format": "double"
+          },
+          "estadoCuota": {
             "type": "string",
             "nullable": true
           },

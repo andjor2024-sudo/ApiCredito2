@@ -224,8 +224,15 @@ namespace GestionIntApi.Repositorios.Implementacion
                 }
                 else
                 {
-                    DateTime fech_Inicio = DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-EC"));
-                    DateTime fech_Fin = DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-EC"));
+                    DateTime fech_Inicio = DateTime.SpecifyKind(
+      DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-EC")),
+      DateTimeKind.Utc
+  );
+
+                    DateTime fech_Fin = DateTime.SpecifyKind(
+                        DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-EC")),
+                        DateTimeKind.Utc
+                    );
                     listaResultado = await query
                      .Include(p => p.Creditos)
                         .Include(p => p.DetalleCliente)

@@ -55,6 +55,12 @@ namespace GestionIntApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AbonadoCuota")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("AbonadoTotal")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("ClienteId")
                         .HasColumnType("integer");
 
@@ -65,6 +71,10 @@ namespace GestionIntApi.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EstadoCuota")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -80,6 +90,14 @@ namespace GestionIntApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FrecuenciaPago")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Modelo")
                         .IsRequired()
                         .HasColumnType("text");
 

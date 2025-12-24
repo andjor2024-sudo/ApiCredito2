@@ -39,6 +39,17 @@ namespace GestionIntApi.DTO
 
         [Url(ErrorMessage = "La URL de la foto del celular entregado no es válida")]
         public string FotoCelularEntregadoUrl { get; set; }
+
+
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public decimal AbonadoTotal { get; set; }
+
+        public decimal AbonadoCuota { get; set; }
+        public string EstadoCuota { get; set; }
+
+
+
         public DateTime FechaCreacion { get; set; }
         public int ClienteId { get; set; }
 

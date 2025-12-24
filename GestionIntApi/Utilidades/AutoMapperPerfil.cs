@@ -51,7 +51,9 @@ namespace GestionIntApi.Utilidades
 
             CreateMap<Credito, CreditoMostrarDTO>()
               .ForMember(dest => dest.ProximaCuotaStr,
-        opt => opt.MapFrom(src => src.ProximaCuota.ToString("dd/MM/yyyy")));
+        opt => opt.MapFrom(src => src.ProximaCuota.ToString("dd/MM/yyyy")))
+              .ForMember(dest => dest.FechaCreditoStr,
+        opt => opt.MapFrom(src => src.FechaCreacion.ToString("dd/MM/yyyy")));
 
             #endregion Usuario
             #region DetalleCliente
@@ -59,11 +61,13 @@ namespace GestionIntApi.Utilidades
             CreateMap<ClienteDTO, Cliente>()
     .ForMember(dest => dest.Usuario, opt => opt.Ignore())
     .ReverseMap();
+
+            CreateMap<Cliente, ReporteDTO>().ReverseMap();
         //    CreateMap<Cliente, ClienteMostrarAppDTO>()
-          //         .ForMember(dest => dest.NombreApellidos,
-            //   opt => opt.MapFrom(src => src.DetalleCliente.NombreApellidos))
-              //     .ForMember(dest => dest.Correo,
-               //opt => opt.MapFrom(src => src.Usuario.Correo));
+        //         .ForMember(dest => dest.NombreApellidos,
+        //   opt => opt.MapFrom(src => src.DetalleCliente.NombreApellidos))
+        //     .ForMember(dest => dest.Correo,
+        //opt => opt.MapFrom(src => src.Usuario.Correo));
 
 
             #endregion DetalleCliente

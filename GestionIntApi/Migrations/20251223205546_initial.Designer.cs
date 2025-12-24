@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionIntApi.Migrations
 {
     [DbContext(typeof(SistemaGestionDBcontext))]
-    [Migration("20251219222652_CreditoConTienda")]
-    partial class CreditoConTienda
+    [Migration("20251223205546_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,12 @@ namespace GestionIntApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AbonadoCuota")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("AbonadoTotal")
+                        .HasColumnType("numeric");
+
                     b.Property<int>("ClienteId")
                         .HasColumnType("integer");
 
@@ -68,6 +74,10 @@ namespace GestionIntApi.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EstadoCuota")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -83,6 +93,14 @@ namespace GestionIntApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("FrecuenciaPago")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Modelo")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -404,6 +422,31 @@ namespace GestionIntApi.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Tiendas");
+                });
+
+            modelBuilder.Entity("GestionIntApi.Models.Ubicacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<double>("Latitud")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Longitud")
+                        .HasColumnType("double precision");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ubicacions");
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.Usuario", b =>

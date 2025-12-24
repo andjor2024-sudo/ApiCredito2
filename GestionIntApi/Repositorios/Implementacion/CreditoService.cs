@@ -67,7 +67,13 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
         }
 
-
+        /* int totalCuotas = modelo.FrecuenciaPago.ToLower() switch
+ {
+     "semanal" => modelo.PlazoCuotas * 4,
+     "quincenal" => modelo.PlazoCuotas * 2,
+     "mensual" => modelo.PlazoCuotas,
+     _ => throw new Exception("Frecuencia de pago inválida")
+ };*/
 
         public async Task<CreditoDTO> CreateCredito(CreditoDTO modelo)
         {
@@ -106,13 +112,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // Cálculo del TotalPagar (sin intereses)
                 modelo.MontoPendiente = modelo.MontoTotal-modelo.Entrada;
 
-               /* int totalCuotas = modelo.FrecuenciaPago.ToLower() switch
-                {
-                    "semanal" => modelo.PlazoCuotas * 4,
-                    "quincenal" => modelo.PlazoCuotas * 2,
-                    "mensual" => modelo.PlazoCuotas,
-                    _ => throw new Exception("Frecuencia de pago inválida")
-                };*/
+
 
                 int totalCuotas = modelo.PlazoCuotas;
 
@@ -134,9 +134,18 @@ namespace GestionIntApi.Repositorios.Implementacion
                     _ => modelo.DiaPago
                 };
 
-                // =============================
-              
 
+
+
+
+                // =============================
+                // 6. Inicializar propiedades de pagos
+                // =============================
+                // =============================
+
+                modelo.AbonadoCuota = 0;        // cuota actual
+                modelo.AbonadoTotal = modelo.Entrada;   // total del crédito
+                modelo.EstadoCuota = "Pendiente";
                 // =============================
                 // 5. Actualizar estado
                 // =============================
@@ -215,6 +224,58 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
         }
 
+
+        public async Task<bool> UpdateCreditoSoloDatos(CreditoDTO modelo)
+        {
+            try
+            {
+                var credito = await _creditoRepository.Obtener(u => u.Id == modelo.Id);
+                if (credito == null)
+                    throw new TaskCanceledException("El crédito no existe");
+
+                // =============================
+                // 🔒 NO TOCAR CAMPOS FINANCIEROS
+                // =============================
+                // NO modificar:
+                // - MontoTotal
+                // - Entrada
+                // - MontoPendiente
+                // - ValorPorCuota
+                // - PlazoCuotas
+                // - FrecuenciaPago
+                // - DiaPago
+                // - ProximaCuota
+                // - AbonadoTotal
+                // - AbonadoCuota
+
+                // =============================
+                // ✏️ Campos editables
+                // =============================
+                credito.Marca = modelo.Marca;
+                credito.Modelo = modelo.Modelo;
+                credito.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+                credito.FotoContrato = modelo.FotoContrato;
+
+                // =============================
+                // 🕒 Recalcular SOLO estado de cuota
+                // =============================
+                credito.EstadoCuota =
+                    DateTime.UtcNow.Date > credito.ProximaCuota.Date
+                        ? "Atrasada"
+                        : "Pendiente";
+
+                // =============================
+                // 💾 Guardar
+                // =============================
+                bool respuesta = await _creditoRepository.Editar(credito);
+                return respuesta;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<bool> DeleteCredito(int id)
         {
             try
@@ -260,6 +321,10 @@ namespace GestionIntApi.Repositorios.Implementacion
                     $"El monto pagado ({pago.MontoPagado}) no puede ser mayor al saldo pendiente ({credito.MontoPendiente})"
                 );
             credito.MontoPendiente -= pago.MontoPagado;
+            credito.AbonadoTotal += pago.MontoPagado;
+// total del crédito
+            credito.AbonadoCuota += pago.MontoPagado;      // cuota actual
+
 
             // if (credito.MontoPendiente < 0)
             //   credito.MontoPendiente = 0; // evitar negativo
@@ -281,30 +346,60 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // =============================
                 // 4. Calcular Próxima Cuota
                 // =============================
-
-                // Si la fecha viene vacía o inválida → corregimos
-                if (credito.ProximaCuota.Year < 2000)
-                    credito.ProximaCuota = DateTime.UtcNow;
-
-
-
-                switch (credito.FrecuenciaPago.ToLower())
+            /*    if (pago.MontoPagado >= credito.ValorPorCuota)
                 {
-                    case "semanal":
-                        credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
-                        break;
 
-                    case "quincenal":
-                        credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
-                        break;
+                    credito.EstadoCuota = "Pagada";
+                    // Si la fecha viene vacía o inválida → corregimos
+                    if (credito.ProximaCuota.Year < 2000)
+                            credito.ProximaCuota = DateTime.UtcNow;
 
-                    case "mensual":
-                        credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
-                        break;
+
+
+                        switch (credito.FrecuenciaPago.ToLower())
+                        {
+                            case "semanal":
+                                credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
+                                break;
+
+                            case "quincenal":
+                                credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
+                                break;
+
+                            case "mensual":
+                                credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
+                                break;
+                        }
+                            credito.AbonadoCuota = 0m;
+                    // Asegurar Kind = UTC
+                    credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
+
+
+
+
+                } */
+
+                while (credito.AbonadoCuota >= credito.ValorPorCuota && credito.MontoPendiente > 0)
+                {
+                    //credito.EstadoCuota = "Pagada";
+                    credito.AbonadoCuota -= credito.ValorPorCuota;
+                    if (credito.ProximaCuota.Year < 2000)
+                        credito.ProximaCuota = DateTime.UtcNow;
+                    switch (credito.FrecuenciaPago.ToLower())
+                    {
+                        case "semanal":
+                            credito.ProximaCuota = credito.ProximaCuota.AddDays(7);
+                            break;
+                        case "quincenal":
+                            credito.ProximaCuota = credito.ProximaCuota.AddDays(15);
+                            break;
+                        case "mensual":
+                            credito.ProximaCuota = credito.ProximaCuota.AddMonths(1);
+                            break;
+                    }
+                    credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
                 }
 
-                // Asegurar Kind = UTC
-                credito.ProximaCuota = DateTime.SpecifyKind(credito.ProximaCuota, DateTimeKind.Utc);
 
 
 
@@ -317,6 +412,13 @@ namespace GestionIntApi.Repositorios.Implementacion
             // =============================
             credito.Estado = credito.MontoPendiente <= 0 ? "Pagado" : "Pendiente";
 
+            // =============================
+            // 7. Estado de la cuota (SOLO Pendiente o Atrasada)
+            // =============================
+            credito.EstadoCuota =
+                DateTime.UtcNow.Date > credito.ProximaCuota.Date
+                    ? "Atrasada"
+                    : "Pendiente";
 
             // =============================
             // 6. Guardar cambios en BD

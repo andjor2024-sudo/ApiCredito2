@@ -32,7 +32,12 @@ namespace GestionIntApi.DTO
         public DateTime ProximaCuota { get; set; }
         public string? ProximaCuotaStr { get; set; }
         public string? Estado { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public decimal AbonadoTotal { get; set; }
 
+        public decimal AbonadoCuota { get; set; }
+        public string EstadoCuota { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int ClienteId { get; set; }
         // Información opcional de la tienda

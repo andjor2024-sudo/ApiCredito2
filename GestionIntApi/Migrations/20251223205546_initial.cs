@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionIntApi.Migrations
 {
     /// <inheritdoc />
-    public partial class CreditoConTienda : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,6 +74,22 @@ namespace GestionIntApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rol", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Ubicacions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false),
+                    Latitud = table.Column<double>(type: "double precision", nullable: false),
+                    Longitud = table.Column<double>(type: "double precision", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ubicacions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +246,11 @@ namespace GestionIntApi.Migrations
                     Estado = table.Column<string>(type: "text", nullable: false),
                     FotoCelularEntregadoUrl = table.Column<string>(type: "text", nullable: false),
                     FotoContrato = table.Column<string>(type: "text", nullable: false),
+                    Marca = table.Column<string>(type: "text", nullable: false),
+                    Modelo = table.Column<string>(type: "text", nullable: false),
+                    AbonadoTotal = table.Column<decimal>(type: "numeric", nullable: false),
+                    AbonadoCuota = table.Column<decimal>(type: "numeric", nullable: false),
+                    EstadoCuota = table.Column<string>(type: "text", nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ClienteId = table.Column<int>(type: "integer", nullable: false),
                     TiendaId = table.Column<int>(type: "integer", nullable: true)
@@ -347,6 +368,9 @@ namespace GestionIntApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Notificacions");
+
+            migrationBuilder.DropTable(
+                name: "Ubicacions");
 
             migrationBuilder.DropTable(
                 name: "VerificationCode");

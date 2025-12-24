@@ -22,6 +22,13 @@
         public string Estado { get; set; }
         public string FotoCelularEntregadoUrl { get; set; }
         public string FotoContrato { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
+        public decimal AbonadoTotal  { get; set; }
+
+        public decimal AbonadoCuota { get; set; }
+        public string EstadoCuota { get; set; }
+
 
         public DateTime FechaCreacion { get; set; }
 

@@ -5,6 +5,7 @@ using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -177,7 +178,7 @@ builder.Services.AddScoped<INotificacionServicio,NotificacionService>();
 
 builder.Services.AddSingleton<ICodigoVerificacionService, CodigoVerificacionService>();
 
-
+builder.Services.AddSingleton<IUserIdProvider, ClienteIdProvider_cs>();
 builder.Services.AddScoped<INotificacionRepository, NotificacionRepository>();
 
 builder.Services.Configure<SendGridSettings>(

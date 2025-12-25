@@ -1,9 +1,11 @@
 ﻿using GestionIntApi.DTO;
+using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace GestionIntApi.Controllers
 {
@@ -99,6 +101,31 @@ namespace GestionIntApi.Controllers
         }
 
 
+        [HttpPost("marcar-leida/{id}")]
+        [Authorize] // 🔒 Protegido con JWT
+        public async Task<IActionResult> MarcarLeida(int id)
+        {
+            // Obtener ClienteId del token
+            var clienteIdClaim = User.FindFirst("ClienteId")?.Value;
+            if (string.IsNullOrEmpty(clienteIdClaim))
+                return Unauthorized("Token inválido o ClienteId no encontrado");
+
+            int clienteId = int.Parse(clienteIdClaim);
+
+            await _NotificacionServicios.MarcarComoLeida(clienteId,id);
+            return NoContent();
+        }
+
+
+        [HttpPost("marcar-leidasinJwt/{id}")]
+        public async Task<IActionResult> MarcarLeida1(int id)
+        {
+            var result = await _NotificacionServicios.MarcarComoLeida1(id);
+            if (!result)
+                return NotFound(new { mensaje = "Notificación no encontrada" });
+
+            return NoContent();
+        }
 
 
     }

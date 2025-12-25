@@ -585,6 +585,38 @@
   },
   {
     "ContainingType": "GestionIntApi.Controllers.NotificacionController",
+    "Method": "MarcarLeida",
+    "RelativePath": "api/Notificacion/marcar-leida/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.NotificacionController",
+    "Method": "MarcarLeida1",
+    "RelativePath": "api/Notificacion/marcar-leidasinJwt/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.NotificacionController",
     "Method": "GetNotificacionesClienteApp",
     "RelativePath": "api/Notificacion/pendientesNotApp",
     "HttpMethod": "GET",

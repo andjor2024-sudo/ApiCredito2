@@ -6,9 +6,14 @@ using System.Security.Claims;
 
 namespace GestionIntApi.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
     public class UbicacionController : Controller
     {
         private readonly IUbicacionService _ubicacionService;
+
+
 
         public UbicacionController(IUbicacionService ubicacionService)
         {

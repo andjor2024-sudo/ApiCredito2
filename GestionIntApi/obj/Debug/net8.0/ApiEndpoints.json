@@ -851,6 +851,58 @@
     ]
   },
   {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "DashboardUbicaciones",
+    "RelativePath": "api/Ubicacion/DashboardUbicaciones/{usuarioId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "MisUbicaciones",
+    "RelativePath": "api/Ubicacion/MisUbicaciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "Registrar",
+    "RelativePath": "api/Ubicacion/Registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "GestionIntApi.DTO.UbicacionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "UltimaUbicacion",
+    "RelativePath": "api/Ubicacion/UltimaUbicacion",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GestionIntApi.Controllers.UsuarioController",
     "Method": "GetById",
     "RelativePath": "api/Usuario/{id}",
@@ -960,58 +1012,6 @@
     "ContainingType": "GestionIntApi.Controllers.UsuarioController",
     "Method": "Lista",
     "RelativePath": "api/Usuario/Lista",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
-    "Method": "DashboardUbicaciones",
-    "RelativePath": "DashboardUbicaciones/{usuarioId}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usuarioId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
-    "Method": "MisUbicaciones",
-    "RelativePath": "MisUbicaciones",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
-    "Method": "Registrar",
-    "RelativePath": "Registrar",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "GestionIntApi.DTO.UbicacionDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
-    "Method": "UltimaUbicacion",
-    "RelativePath": "UltimaUbicacion",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

@@ -1460,7 +1460,7 @@
         }
       }
     },
-    "/Registrar": {
+    "/api/Ubicacion/Registrar": {
       "post": {
         "tags": [
           "Ubicacion"
@@ -1491,7 +1491,7 @@
         }
       }
     },
-    "/MisUbicaciones": {
+    "/api/Ubicacion/MisUbicaciones": {
       "get": {
         "tags": [
           "Ubicacion"
@@ -1503,7 +1503,7 @@
         }
       }
     },
-    "/UltimaUbicacion": {
+    "/api/Ubicacion/UltimaUbicacion": {
       "get": {
         "tags": [
           "Ubicacion"
@@ -1515,7 +1515,7 @@
         }
       }
     },
-    "/DashboardUbicaciones/{usuarioId}": {
+    "/api/Ubicacion/DashboardUbicaciones/{usuarioId}": {
       "get": {
         "tags": [
           "Ubicacion"

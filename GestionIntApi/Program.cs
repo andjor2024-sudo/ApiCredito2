@@ -3,6 +3,7 @@ using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
+using GestionIntApi.Servicios.Implementacion;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
@@ -178,7 +179,7 @@ builder.Services.AddScoped<INotificacionServicio,NotificacionService>();
 
 builder.Services.AddScoped<IReporteService, ReporteService>();
 builder.Services.AddSingleton<ICodigoVerificacionService, CodigoVerificacionService>();
-
+builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 builder.Services.AddSingleton<IUserIdProvider, ClienteIdProvider_cs>();
 builder.Services.AddScoped<INotificacionRepository, NotificacionRepository>();
 

@@ -109,6 +109,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GestionIntApi.Controllers.ClienteController",
+    "Method": "ExportarExcel",
+    "RelativePath": "api/Cliente/reporte-excel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fechaInicio",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fechaFin",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GestionIntApi.Controllers.CreditoController",
     "Method": "GetById",
     "RelativePath": "api/Credito/{id}",
@@ -939,6 +960,58 @@
     "ContainingType": "GestionIntApi.Controllers.UsuarioController",
     "Method": "Lista",
     "RelativePath": "api/Usuario/Lista",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "DashboardUbicaciones",
+    "RelativePath": "DashboardUbicaciones/{usuarioId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "MisUbicaciones",
+    "RelativePath": "MisUbicaciones",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "Registrar",
+    "RelativePath": "Registrar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "GestionIntApi.DTO.UbicacionDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.UbicacionController",
+    "Method": "UltimaUbicacion",
+    "RelativePath": "UltimaUbicacion",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

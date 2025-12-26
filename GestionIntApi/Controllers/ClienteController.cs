@@ -1,5 +1,6 @@
 ﻿using GestionIntApi.DTO;
 using GestionIntApi.Models;
+using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -14,14 +15,16 @@ namespace GestionIntApi.Controllers
     {
 
         private readonly IClienteService _ClienteServicios;
+        private readonly IReporteService _ReporteServicios;
         private readonly ICodigoVerificacionService _codigoService;
         private readonly IEmailService _emailService;
         private readonly IRegistroTemporalService _registroTemporal;
 
 
-        public ClienteController(IClienteService ClienteServicios)
+        public ClienteController(IClienteService ClienteServicios, IReporteService reporteService)
         {
             _ClienteServicios = ClienteServicios;
+            _ReporteServicios = reporteService;
 
         }
 
@@ -145,9 +148,21 @@ namespace GestionIntApi.Controllers
         }
 
 
+        [HttpGet("reporte-excel")]
+        public async Task<IActionResult> ExportarExcel(
+    string? fechaInicio,
+    string? fechaFin
+)
+        {
+            var archivo = await _ReporteServicios
+                .ExportarReporteExcel(fechaInicio, fechaFin);
 
-
-
+            return File(
+                archivo,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "reporte_creditos.xlsx"
+            );
+        }
 
 
 

@@ -176,6 +176,7 @@ builder.Services.AddScoped<ITiendaService, TiendaService>();
 
 builder.Services.AddScoped<INotificacionServicio,NotificacionService>();
 
+builder.Services.AddScoped<IReporteService, ReporteService>();
 builder.Services.AddSingleton<ICodigoVerificacionService, CodigoVerificacionService>();
 
 builder.Services.AddSingleton<IUserIdProvider, ClienteIdProvider_cs>();

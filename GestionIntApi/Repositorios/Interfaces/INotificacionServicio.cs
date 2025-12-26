@@ -6,7 +6,13 @@ namespace GestionIntApi.Repositorios.Interfaces
     {
         Task GenerarNotificaciones();
         Task<List<NotificacionDTO>> GetNotificaciones();
+       
         Task MarcarComoLeida(int clienteID, int notificacionId);
         Task<bool> MarcarComoLeida1(int notificacionId);
     }
+
+
+
+
+
 }

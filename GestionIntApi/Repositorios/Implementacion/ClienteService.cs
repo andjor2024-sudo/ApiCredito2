@@ -207,10 +207,13 @@ namespace GestionIntApi.Repositorios.Implementacion
 
             return _mapper.Map<IEnumerable<ClienteDTO>>(clientes);
         }
+
+        /*
         public async Task<List<ReporteDTO>> Reporte(string fechaInicio, string fechaFin)
         {
             IQueryable<Cliente> query = await _clienteRepository2.Consultar();
             var listaResultado = new List<Cliente>();
+          
             try
             {
                 if (string.IsNullOrEmpty(fechaInicio) || string.IsNullOrEmpty(fechaFin))
@@ -221,6 +224,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                         .Include(p => p.Tiendas)
                        
                         .ToListAsync();
+
+                   
                 }
                 else
                 {
@@ -241,12 +246,135 @@ namespace GestionIntApi.Repositorios.Implementacion
                        .Where(c => c.Creditos.Any(cr => cr.DiaPago >= fech_Inicio && cr.DiaPago <= fech_Fin))
     .ToListAsync();
                 }
+
+
+                // Mapeo manual a ReporteCreditoDTO
+                listaResultado = clientes
+                    .SelectMany(cliente => cliente.Creditos.Select(credito => new ReporteDTO
+                    {
+                        // CLIENTE
+                        ClienteId = cliente.ClienteId,
+                        NombreCliente = cliente.NombreCompleto,
+                        Cedula = cliente.Cedula,
+                        TelefonoCliente = cliente.DetalleCliente?.Telefono,
+                        DireccionCliente = cliente.DetalleCliente?.Direccion,
+
+                        // TIENDA
+                        TiendaId = cliente.TiendaId,
+                        NombreTienda = cliente.Tiendas?.NombreTienda,
+                        EncargadoTienda = cliente.Tiendas?.Encargado,
+                        TelefonoTienda = cliente.Tiendas?.Telefono,
+
+                        // CRÉDITO
+                        CreditoId = credito.CreditoId,
+                        Entrada = credito.Entrada,
+                        MontoTotal = credito.MontoTotal,
+                        MontoPendiente = credito.MontoPendiente,
+                        PlazoCuotas = credito.PlazoCuotas,
+                        FrecuenciaPago = credito.FrecuenciaPago,
+                        ValorPorCuota = credito.ValorPorCuota,
+                        ProximaCuota = credito.ProximaCuota,
+                        EstadoCredito = credito.Estado,
+
+                        // FECHAS
+                        FechaCreditoStr = cliente.credito.fechaCreacion.ToString("dd/MM/yyyy")
+                    }))
+                    .ToList();
+
             }
             catch
             {
                 throw;
             }
             return _mapper.Map<List<ReporteDTO>>(listaResultado);
+        }
+*/
+
+        public async Task<List<ReporteDTO>> Reporte(string fechaInicio, string fechaFin)
+        {
+            IQueryable<Cliente> query = await _clienteRepository2.Consultar();
+            var listaResultado = new List<ReporteDTO>();
+
+            try
+            {
+                IQueryable<Cliente> queryConIncludes = query
+                    .Include(p => p.Creditos)
+                    .Include(p => p.DetalleCliente)
+                    .Include(p => p.Tiendas);
+
+                List<Cliente> clientes;
+
+                if (string.IsNullOrEmpty(fechaInicio) || string.IsNullOrEmpty(fechaFin))
+                {
+                    clientes = await queryConIncludes.ToListAsync();
+                }
+                else
+                {
+                    DateTime fech_Inicio = DateTime.SpecifyKind(
+                        DateTime.ParseExact(fechaInicio, "dd/MM/yyyy", new CultureInfo("es-EC")),
+                        DateTimeKind.Utc
+                    );
+                    DateTime fech_Fin = DateTime.SpecifyKind(
+                        DateTime.ParseExact(fechaFin, "dd/MM/yyyy", new CultureInfo("es-EC")),
+                        DateTimeKind.Utc
+                    );
+
+                    clientes = await queryConIncludes
+                        .Where(c => c.Creditos.Any(cr => cr.DiaPago >= fech_Inicio && cr.DiaPago <= fech_Fin))
+                        .ToListAsync();
+                }
+
+                // Mapeo manual a ReporteDTO
+                listaResultado = clientes
+                    .SelectMany(cliente => cliente.Creditos.Select(credito => new ReporteDTO
+                    {
+                        // CLIENTE
+                        ClienteId = cliente.Id,
+                        NombreCliente = $"{cliente.DetalleCliente.NombreApellidos}", // Ajustar según tu modelo
+                        Cedula = cliente.DetalleCliente.NumeroCedula,
+                        TelefonoCliente = cliente.DetalleCliente.Telefono,
+                        DireccionCliente = cliente.DetalleCliente.Direccion,
+                        FotoClienteUrl = cliente.DetalleCliente.FotoClienteUrl,
+
+                        // TIENDA
+                        TiendaId = credito.TiendaId,
+                        NombreTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.NombreTienda,
+                        EncargadoTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.NombreEncargado,
+                        TelefonoTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.Telefono,
+
+                        // CRÉDITO
+                        // CRÉDITO
+                        CreditoId = credito.Id,
+                        Entrada = credito.Entrada,
+                        Marca = credito.Marca,
+
+                        Modelo = credito.Modelo,
+                        FotoContrato = credito.FotoContrato,
+                        FotoCelularEntregadoUrl = credito.FotoCelularEntregadoUrl,
+                        MontoTotal = credito.MontoTotal,
+                        MontoPendiente = credito.MontoPendiente,
+                        PlazoCuotas = credito.PlazoCuotas,
+                        FrecuenciaPago = credito.FrecuenciaPago,
+                        ValorPorCuota = credito.ValorPorCuota,
+                        ProximaCuota = credito.ProximaCuota,
+                        EstadoCredito = credito.Estado,
+                        AbonadoTotal = credito.AbonadoTotal,
+                        // EstadoCuota y AbonadoCuota pueden requerir lógica adicional si están relacionados con cuotas específicas
+                        EstadoCuota = credito.EstadoCuota, // Placeholder
+                        AbonadoCuota = credito.AbonadoCuota, // Placeholder
+
+                        // FECHAS
+                        FechaCreditoStr = credito.FechaCreacion.ToString("dd/MM/yyyy"),
+
+                    }))
+                    .ToList();
+            }
+            catch
+            {
+                throw;
+            }
+
+            return listaResultado;
         }
 
         public async Task<ClienteMostrarAppDTO> GetClienteParaApp(int usuarioId)

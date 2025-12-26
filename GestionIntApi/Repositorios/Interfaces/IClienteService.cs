@@ -18,8 +18,8 @@ namespace GestionIntApi.Repositorios.Interfaces
         Task<List<ReporteDTO>> Reporte(string fechaInicio, string fechaFin);
         Task<IEnumerable<ClienteDTO>> GetClientesPorTienda(int tiendaId);
         Task<IEnumerable<ClienteDTO>> GetClientesPorUsuario(int usuarioId);
-    
 
+       
 
     }
 }

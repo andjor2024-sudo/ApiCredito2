@@ -4,6 +4,8 @@ using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Interfaces;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace GestionIntApi.Repositorios.Implementacion
 {
@@ -32,32 +34,49 @@ namespace GestionIntApi.Repositorios.Implementacion
         {
             var listaCreditos = await _CreditoRepositorio.Consultar();
             var creditos = listaCreditos.ToList();
-
+            var hoy = DateTime.Now.Date;
             foreach (var credito in creditos)
             {
+                var proximaCuota = credito.ProximaCuota.Date;
+
                 // 1. PAGO MAÑANA
-                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(16).Date)
+                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(1).Date)
                 {
-                    await CrearNotificacion(credito.ClienteId, "PagoMañana",
-                        $"El cliente debe pagar mañana: {credito.ProximaCuota:dd/MM/yyyy}");
+                    if (!await ExisteNotificacionHoy(credito.Id, "PagoMañana")) {
+
+                        await CrearNotificacion(credito.ClienteId, "PagoMañana",
+                            $"El cliente debe pagar mañana: {credito.ProximaCuota:dd/MM/yyyy}");
+
+                    }
                 }
 
                 // 2. CUOTA VENCIDA
                 if (credito.ProximaCuota.Date < DateTime.Now.Date)
                 {
-                    await CrearNotificacion(credito.ClienteId, "CuotaVencida",
-                        $"La cuota venció el {credito.ProximaCuota:dd/MM/yyyy}");
+                    if (!await ExisteNotificacionHoy(credito.Id, "Moroso")) {
+
+                        int diasAtrazo1 = (hoy - proximaCuota).Days;
+                        await CrearNotificacion(
+                   credito.ClienteId,
+                   "Moroso",
+                   $"Tiene {diasAtrazo1} día(s) de atraso en el pago."
+               );
+
+                    }
+                    
                 }
 
                 // 3. CLIENTE MOROSO (más de 5 días)
-                var diasAtraso = (DateTime.Now.Date - credito.ProximaCuota.Date).Days;
+              /*  var diasAtraso = (DateTime.Now.Date - credito.ProximaCuota.Date).Days;
 
                 if (diasAtraso >= 1)
                 {
                     await CrearNotificacion(credito.ClienteId, "ClienteMoroso",
-                        $"El cliente tiene {diasAtraso} días de atraso en el pago.");
+                        $"Tiene {diasAtraso} días de atraso en el pago.");
                 }
-            }
+            
+                */
+                }
         }
 
         public async Task CrearNotificacion(int clienteId, string tipo, string mensaje)
@@ -157,6 +176,23 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
 
             return true;
+        }
+
+
+        private async Task<bool> ExisteNotificacionHoy(
+       int clienteId,
+       string tipo
+   )
+        {
+            var hoy = DateTime.UtcNow.Date;
+
+            var query = await _notificacionRepository.Consultar();
+
+            return await query.AnyAsync(n =>
+                n.ClienteId == clienteId &&
+                n.Tipo == tipo &&
+                n.Fecha.Date == hoy
+            );
         }
 
     }

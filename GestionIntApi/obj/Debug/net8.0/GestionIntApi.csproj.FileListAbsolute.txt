@@ -122,3 +122,11 @@ C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\obj\D
 C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\obj\Debug\net8.0\GestionIntApi.pdb
 C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\obj\Debug\net8.0\GestionIntApi.genruntimeconfig.cache
 C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\obj\Debug\net8.0\ref\GestionIntApi.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\RBush.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\andjo\3D Objects\subirapi\TRABAJO\apiGestionInterna\GestionIntApi\bin\Debug\net8.0\System.IO.Packaging.dll

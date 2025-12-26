@@ -40,7 +40,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                 var proximaCuota = credito.ProximaCuota.Date;
 
                 // 1. PAGO MAÑANA
-                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(1).Date)
+                if (credito.ProximaCuota.Date == DateTime.Now.AddDays(182).Date)
                 {
                     if (!await ExisteNotificacionHoy(credito.Id, "PagoMañana")) {
 

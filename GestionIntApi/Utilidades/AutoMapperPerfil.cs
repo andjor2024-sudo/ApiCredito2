@@ -97,8 +97,13 @@ namespace GestionIntApi.Utilidades
 
 
 
+            
 
-           
+
+            #region Ubicacion
+
+            CreateMap<Ubicacion, UbicacionDTO>().ReverseMap();
+            #endregion Ubicacion
 
         }
 

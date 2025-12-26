@@ -15,9 +15,9 @@ namespace GestionIntApi.Servicios.Implementacion
         private readonly IMapper _mapper;
         private readonly IGenericRepository<Ubicacion> _clienteRepository2;
 
-        public UbicacionService(IUbicacionService ubicacionRepository, IGenericRepository<Ubicacion> clienteRepository2, IMapper mapper)
+        public UbicacionService( IGenericRepository<Ubicacion> clienteRepository2, IMapper mapper)
         {
-            _ubicacionRepository = ubicacionRepository;
+            
             _mapper = mapper;
             _clienteRepository2 = clienteRepository2;
 

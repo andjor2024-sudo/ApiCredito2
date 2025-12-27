@@ -33,7 +33,7 @@ namespace GestionIntApi.DTO
 
         public string Marca { get; set; }
         public string Modelo { get; set; }
-        public int IMEI { get; set; }
+        public int? IMEI { get; set; }
         public string TipoProducto { get; set; }
 
         public decimal Capacidad { get; set; }

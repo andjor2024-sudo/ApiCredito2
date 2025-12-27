@@ -26,7 +26,7 @@
         public string Modelo { get; set; }
         public string TipoProducto { get; set; }
         public decimal Capacidad { get; set; }
-        public int IMEI { get; set; }
+        public int? IMEI { get; set; }
         public decimal AbonadoTotal  { get; set; }
 
         public decimal AbonadoCuota { get; set; }

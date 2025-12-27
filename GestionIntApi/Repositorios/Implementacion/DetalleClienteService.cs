@@ -94,8 +94,9 @@ namespace GestionIntApi.Repositorios.Implementacion
                 detalleClienteEncontrado.NombreApellidos = DetlleModelo.NombreApellidos;
                 detalleClienteEncontrado.Telefono = DetlleModelo.Telefono;
                 detalleClienteEncontrado.Direccion = DetlleModelo.Direccion;
-                
-                detalleClienteEncontrado.FotoClienteUrl = DetlleModelo.FotoClienteUrl;
+            //    detalleClienteEncontrado.NombrePropietario = DetlleModelo.NombrePropietario;
+
+                //detalleClienteEncontrado.FotoClienteUrl = DetlleModelo.FotoClienteUrl;
               //  detalleClienteEncontrado.FotoCelularEntregadoUrl = DetlleModelo.FotoCelularEntregadoUrl;
                // detalleClienteEncontrado.FotoContrato = DetlleModelo.FotoContrato;
                 bool respuesta = await _DetalleRepositorio.Editar(detalleClienteEncontrado);
@@ -137,8 +138,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                     throw new TaskCanceledException("El detalle no existe");
 
                 // Solo actualizar las fotos si vienen en el DTO
-                if (!string.IsNullOrEmpty(modelo.FotoClienteUrl))
-                    detalleClienteEncontrado.FotoClienteUrl = modelo.FotoClienteUrl;
+             //   if (!string.IsNullOrEmpty(modelo.FotoClienteUrl))
+               //     detalleClienteEncontrado.FotoClienteUrl = modelo.FotoClienteUrl;
 
                // if (!string.IsNullOrEmpty(modelo.FotoCelularEntregadoUrl))
                  //   detalleClienteEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;

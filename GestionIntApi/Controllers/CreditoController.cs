@@ -1,8 +1,11 @@
 ﻿using GestionIntApi.DTO;
+using GestionIntApi.Models;
+using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
 
 namespace GestionIntApi.Controllers
 {
@@ -324,6 +327,28 @@ namespace GestionIntApi.Controllers
             }
 
             return Ok(rsp);
+        }
+
+        [HttpGet("calendario")]
+        public async Task<IActionResult> GetCalendario()
+        {
+            var clienteIdClaim = User.FindFirst("ClienteId")?.Value;
+            if (string.IsNullOrEmpty(clienteIdClaim))
+                return Unauthorized("Token inválido o ClienteId no encontrado");
+
+            int clienteId = int.Parse(clienteIdClaim);
+
+           
+            var data = await _CreditoServicios.GetCalendarioPagos(clienteId);
+            return Ok(data);
+        }
+
+        [HttpGet("calendario/{creditoId}")]
+     
+        public async Task<IActionResult> GetCalendario(int creditoId)
+        {
+            var data = await _CreditoServicios.GetCalendarioPagos(creditoId);
+            return Ok(data);
         }
 
     }

@@ -25,6 +25,8 @@ namespace GestionIntApi.Models
 
         public DbSet<VerificationCode> CodigosVerificacion { get; set; }
         public DbSet<Tienda> Tiendas { get; set; }
+
+        public DbSet<TiendaApp> TiendaApps { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<DetalleCliente> DetallesCliente { get; set; }
         public DbSet<Credito> Creditos { get; set; }

@@ -20,10 +20,13 @@
         public DateTime ProximaCuota { get; set; }
 
         public string Estado { get; set; }
-        public string FotoCelularEntregadoUrl { get; set; }
-        public string FotoContrato { get; set; }
+     //   public string FotoCelularEntregadoUrl { get; set; }
+      //  public string FotoContrato { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
+        public string TipoProducto { get; set; }
+        public decimal Capacidad { get; set; }
+        public int IMEI { get; set; }
         public decimal AbonadoTotal  { get; set; }
 
         public decimal AbonadoCuota { get; set; }
@@ -36,8 +39,8 @@
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
-        public int? TiendaId { get; set; }
-        public Tienda Tienda { get; set; } 
+        public int? TiendaAppId { get; set; }
+        public TiendaApp TiendaApp { get; set; } 
         // public ICollection<Cliente> Clientes { get; set; }
     }
 }

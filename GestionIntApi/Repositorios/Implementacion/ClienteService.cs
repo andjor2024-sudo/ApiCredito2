@@ -86,17 +86,43 @@ namespace GestionIntApi.Repositorios.Implementacion
 
                 cliente = await _clienteRepository2.Crear(cliente);
 
-                var tiendasCreadas = new List<Tienda>();
-                // 3. Guardar tiendas si existen
-                if (modelo.Tiendas != null)
+                var tiendasCreadas = new List<TiendaApp>();
+
+                if (modelo.TiendaApps != null)
                 {
-                    foreach (var t in modelo.Tiendas)
+                    foreach (var t in modelo.TiendaApps)
                     {
-                        t.ClienteId = cliente.Id;
-                        var tiendaCreada=await _TiendaRepositorio.Crear(_mapper.Map<Tienda>(t));
-                        tiendasCreadas.Add(tiendaCreada);
+                        // 🔥 CAMBIO: Ahora TiendaApp necesita TiendaId
+                        // Primero debes buscar o crear la Tienda real
+
+                        var tiendaExistente = await _context.Tiendas
+                            .FirstOrDefaultAsync(x => x.CedulaEncargado == t.CedulaEncargado);
+
+                        if (tiendaExistente == null)
+                        {
+                            throw new TaskCanceledException(
+                                $"La tienda con cédula {t.CedulaEncargado} no existe. " +
+                                "Primero debe registrarse la tienda."
+                            );
+                        }
+
+                        // Crear TiendaApp (la relación intermedia)
+                        var TiendaApps = new TiendaApp
+                        {
+                            TiendaId = tiendaExistente.Id,  // ✅ FK a Tiendas
+                            ClienteId = cliente.Id,          // ✅ FK a Clientes
+                            CedulaEncargado = t.CedulaEncargado,
+                            EstadoDeComision = "Pendiente",  // O el valor que necesites
+                            FechaRegistro = DateTime.UtcNow
+                        };
+
+                        var tiendaCreada = await _context.TiendaApps.AddAsync(TiendaApps);
+                        await _context.SaveChangesAsync();
+
+                        tiendasCreadas.Add(TiendaApps);
                     }
                 }
+
 
                 // 4. Guardar créditos si existen
                 if (modelo.Creditos != null)
@@ -106,9 +132,9 @@ namespace GestionIntApi.Repositorios.Implementacion
                         c.ClienteId = cliente.Id;
 
                         if (tiendasCreadas.Any())
-                            c.TiendaId = tiendasCreadas.First().Id;
+                            c.TiendaAppId = tiendasCreadas.First().Id;
                         else
-                            c.TiendaId = null;
+                            c.TiendaAppId= null;
 
                         // 🚀 Aquí se hace todo: validaciones, cálculos y guardado
                         await _CreditoServicio.CreateCredito(c);
@@ -137,7 +163,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                 if (OdontologoEncontrado == null)
                     throw new TaskCanceledException("La cita no existe");
                 OdontologoEncontrado.DetalleCliente = clienteModelo.DetalleCliente;
-                OdontologoEncontrado.Tiendas = clienteModelo.Tiendas;
+                OdontologoEncontrado.TiendaApps = clienteModelo.TiendaApps;
                 var creditosExistentes = OdontologoEncontrado.Creditos.ToList();
                 var creditosNuevos = clienteModelo.Creditos ?? new List<Credito>();
 
@@ -187,10 +213,10 @@ namespace GestionIntApi.Repositorios.Implementacion
         public async Task<IEnumerable<ClienteDTO>> GetClientesPorTienda(int tiendaId)
         {
             var clientes = await _context.Clientes
-                .Where(c => c.Tiendas.Any(t => t.Id == tiendaId))
+                .Where(c => c.TiendaApps.Any(t => t.Id == tiendaId))
                 .Include(c => c.Usuario)
                 .Include(c => c.DetalleCliente)
-                 .Include(c => c.Tiendas)
+                 .Include(c => c.TiendaApps)
                 .Include(c => c.Creditos)
                 .ToListAsync();
 
@@ -201,7 +227,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         {
             var clientes = await _context.Clientes
                 .Where(c => c.UsuarioId == usuarioId)
-                .Include(c => c.Tiendas)
+                .Include(c => c.TiendaApps)
                 .Include(c => c.Creditos)
                 .ToListAsync();
 
@@ -300,7 +326,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                 IQueryable<Cliente> queryConIncludes = query
                     .Include(p => p.Creditos)
                     .Include(p => p.DetalleCliente)
-                    .Include(p => p.Tiendas);
+                    .Include(p => p.TiendaApps)
+                           .ThenInclude(ta => ta.Tienda);
 
                 List<Cliente> clientes;
 
@@ -334,13 +361,13 @@ namespace GestionIntApi.Repositorios.Implementacion
                         Cedula = cliente.DetalleCliente.NumeroCedula,
                         TelefonoCliente = cliente.DetalleCliente.Telefono,
                         DireccionCliente = cliente.DetalleCliente.Direccion,
-                        FotoClienteUrl = cliente.DetalleCliente.FotoClienteUrl,
+                        
 
                         // TIENDA
-                        TiendaId = credito.TiendaId,
-                        NombreTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.NombreTienda,
-                        EncargadoTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.NombreEncargado,
-                        TelefonoTienda = cliente.Tiendas?.FirstOrDefault(t => t.Id == credito.TiendaId)?.Telefono,
+                        TiendaId = credito.TiendaAppId,
+                        NombreTienda = cliente.TiendaApps?.FirstOrDefault(t => t.Id == credito.TiendaAppId)?.Tienda.NombreTienda,
+                        EncargadoTienda = cliente.TiendaApps?.FirstOrDefault(t => t.Id == credito.TiendaAppId)?.Tienda.NombreEncargado,
+                        TelefonoTienda = cliente.TiendaApps?.FirstOrDefault(t => t.Id == credito.TiendaAppId)?.Tienda.Telefono,
 
                         // CRÉDITO
                         // CRÉDITO
@@ -349,8 +376,7 @@ namespace GestionIntApi.Repositorios.Implementacion
                         Marca = credito.Marca,
 
                         Modelo = credito.Modelo,
-                        FotoContrato = credito.FotoContrato,
-                        FotoCelularEntregadoUrl = credito.FotoCelularEntregadoUrl,
+                       
                         MontoTotal = credito.MontoTotal,
                         MontoPendiente = credito.MontoPendiente,
                         PlazoCuotas = credito.PlazoCuotas,

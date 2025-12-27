@@ -22,9 +22,9 @@ namespace GestionIntApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NumeroCedula = table.Column<string>(type: "text", nullable: false),
                     NombreApellidos = table.Column<string>(type: "text", nullable: false),
+                    NombrePropietario = table.Column<string>(type: "text", nullable: true),
                     Telefono = table.Column<string>(type: "text", nullable: false),
-                    Direccion = table.Column<string>(type: "text", nullable: false),
-                    FotoClienteUrl = table.Column<string>(type: "text", nullable: false)
+                    Direccion = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,6 +74,24 @@ namespace GestionIntApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rol", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tiendas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NombreTienda = table.Column<string>(type: "text", nullable: false),
+                    Direccion = table.Column<string>(type: "text", nullable: false),
+                    NombreEncargado = table.Column<string>(type: "text", nullable: false),
+                    CedulaEncargado = table.Column<string>(type: "text", nullable: false),
+                    Telefono = table.Column<string>(type: "text", nullable: false),
+                    FechaRegistro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tiendas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,25 +223,30 @@ namespace GestionIntApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tiendas",
+                name: "TiendaApps",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NombreTienda = table.Column<string>(type: "text", nullable: false),
-                    NombreEncargado = table.Column<string>(type: "text", nullable: false),
-                    Telefono = table.Column<string>(type: "text", nullable: false),
-                    Direccion = table.Column<string>(type: "text", nullable: false),
+                    TiendaId = table.Column<int>(type: "integer", nullable: false),
+                    CedulaEncargado = table.Column<string>(type: "text", nullable: false),
+                    EstadoDeComision = table.Column<string>(type: "text", nullable: false),
                     FechaRegistro = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ClienteId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tiendas", x => x.Id);
+                    table.PrimaryKey("PK_TiendaApps", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tiendas_Clientes_ClienteId",
+                        name: "FK_TiendaApps_Clientes_ClienteId",
                         column: x => x.ClienteId,
                         principalTable: "Clientes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TiendaApps_Tiendas_TiendaId",
+                        column: x => x.TiendaId,
+                        principalTable: "Tiendas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,16 +267,17 @@ namespace GestionIntApi.Migrations
                     TotalPagar = table.Column<decimal>(type: "numeric", nullable: false),
                     ProximaCuota = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Estado = table.Column<string>(type: "text", nullable: false),
-                    FotoCelularEntregadoUrl = table.Column<string>(type: "text", nullable: false),
-                    FotoContrato = table.Column<string>(type: "text", nullable: false),
                     Marca = table.Column<string>(type: "text", nullable: false),
                     Modelo = table.Column<string>(type: "text", nullable: false),
+                    TipoProducto = table.Column<string>(type: "text", nullable: false),
+                    Capacidad = table.Column<decimal>(type: "numeric", nullable: false),
+                    IMEI = table.Column<int>(type: "integer", nullable: false),
                     AbonadoTotal = table.Column<decimal>(type: "numeric", nullable: false),
                     AbonadoCuota = table.Column<decimal>(type: "numeric", nullable: false),
                     EstadoCuota = table.Column<string>(type: "text", nullable: false),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ClienteId = table.Column<int>(type: "integer", nullable: false),
-                    TiendaId = table.Column<int>(type: "integer", nullable: true)
+                    TiendaAppId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,9 +289,9 @@ namespace GestionIntApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Creditos_Tiendas_TiendaId",
-                        column: x => x.TiendaId,
-                        principalTable: "Tiendas",
+                        name: "FK_Creditos_TiendaApps_TiendaAppId",
+                        column: x => x.TiendaAppId,
+                        principalTable: "TiendaApps",
                         principalColumn: "Id");
                 });
 
@@ -324,9 +348,9 @@ namespace GestionIntApi.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Creditos_TiendaId",
+                name: "IX_Creditos_TiendaAppId",
                 table: "Creditos",
-                column: "TiendaId");
+                column: "TiendaAppId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuRols_MenuId",
@@ -344,9 +368,14 @@ namespace GestionIntApi.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tiendas_ClienteId",
-                table: "Tiendas",
+                name: "IX_TiendaApps_ClienteId",
+                table: "TiendaApps",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TiendaApps_TiendaId",
+                table: "TiendaApps",
+                column: "TiendaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Usuarios_RolId",
@@ -376,13 +405,16 @@ namespace GestionIntApi.Migrations
                 name: "VerificationCode");
 
             migrationBuilder.DropTable(
-                name: "Tiendas");
+                name: "TiendaApps");
 
             migrationBuilder.DropTable(
                 name: "Menus");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
+
+            migrationBuilder.DropTable(
+                name: "Tiendas");
 
             migrationBuilder.DropTable(
                 name: "DetallesCliente");

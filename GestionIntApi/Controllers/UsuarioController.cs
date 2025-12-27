@@ -151,7 +151,7 @@ namespace GestionIntApi.Controllers
                 Console.WriteLine("=== CLIENTE RECIBIDO ===");
                 Console.WriteLine($"ClienteId: {usuario.Cliente.Id}");
                 Console.WriteLine($"DetalleClienteID: {usuario.Cliente.DetalleClienteID}");
-                Console.WriteLine($"# Tiendas: {usuario.Cliente.Tiendas?.Count}");
+                Console.WriteLine($"# Tiendas: {usuario.Cliente.TiendaApps?.Count}");
                 Console.WriteLine($"# Creditos: {usuario.Cliente.Creditos?.Count}");
             }
             else

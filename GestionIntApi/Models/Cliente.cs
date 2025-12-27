@@ -10,7 +10,7 @@
         public int DetalleClienteID { get; set; }
         public DetalleCliente DetalleCliente { get; set; }
 
-        public ICollection<Tienda> Tiendas { get; set; }
+        public ICollection<TiendaApp> TiendaApps { get; set; }
 
         public ICollection<Credito> Creditos { get; set; }
         ICollection<Notificacion> Notificaciones { get; set; }

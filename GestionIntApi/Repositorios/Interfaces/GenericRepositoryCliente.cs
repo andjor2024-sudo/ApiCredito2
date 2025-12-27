@@ -26,7 +26,7 @@ namespace GestionIntApi.Repositorios.Interfaces
             return await _context.Clientes
                 .Include(c => c.Usuario)
                 .Include(c => c.DetalleCliente)
-                .Include(c => c.Tiendas)
+                .Include(c => c.TiendaApps)
                 .Include(c => c.Creditos)
                 .ToListAsync();
         }
@@ -37,7 +37,7 @@ namespace GestionIntApi.Repositorios.Interfaces
             return await _context.Clientes
                 .Include(c => c.Usuario)
                 .Include(c => c.DetalleCliente)
-                .Include(c => c.Tiendas)
+                .Include(c => c.TiendaApps)
                 .Include(c => c.Creditos)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }

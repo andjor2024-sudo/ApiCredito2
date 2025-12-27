@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using GestionIntApi.Models;
+using System.Text.Json.Serialization;
 
 namespace GestionIntApi.DTO
 {
@@ -12,9 +13,10 @@ namespace GestionIntApi.DTO
         public int DetalleClienteID { get; set; }
         public DetalleClienteDTO DetalleCliente { get; set; }
 
-        public List<TiendaDTO> Tiendas { get; set; }
-
+        public List<TiendaAppDTO> TiendaApps { get; set; }
         
+
+
         public List<CreditoDTO> Creditos { get; set; }
     }
 }

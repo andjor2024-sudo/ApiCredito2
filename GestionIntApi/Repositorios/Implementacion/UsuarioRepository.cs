@@ -214,13 +214,41 @@ namespace GestionIntApi.Repositorios.Implementacion
 
                 cliente = await _ClienteRepositorio.Crear(cliente);
 
-                var tiendasCreadas = new List<Tienda>();
-                // 4. Guardar tiendas
-                foreach (var t in modelo.Cliente.Tiendas)
+                var tiendasCreadas = new List<TiendaApp>();
+
+                if (modelo.Cliente.TiendaApps != null)
                 {
-                    t.ClienteId = cliente.Id;
-                    var tiendaCreada=await _TiendaRepositorio.Crear(_mapper.Map<Tienda>(t));
-                    tiendasCreadas.Add(tiendaCreada);
+                    foreach (var t in modelo.Cliente.TiendaApps)
+                    {
+                        // 🔥 CAMBIO: Ahora TiendaApp necesita TiendaId
+                        // Primero debes buscar o crear la Tienda real
+
+                        var tiendaExistente = await _context.Tiendas
+                            .FirstOrDefaultAsync(x => x.CedulaEncargado == t.CedulaEncargado);
+
+                        if (tiendaExistente == null)
+                        {
+                            throw new TaskCanceledException(
+                                $"La tienda con cédula {t.CedulaEncargado} no existe. " +
+                                "Primero debe registrarse la tienda."
+                            );
+                        }
+
+                        // Crear TiendaApp (la relación intermedia)
+                        var TiendaApps = new TiendaApp
+                        {
+                            TiendaId = tiendaExistente.Id,  // ✅ FK a Tiendas
+                            ClienteId = cliente.Id,          // ✅ FK a Clientes
+                            CedulaEncargado = t.CedulaEncargado,
+                            EstadoDeComision = "Pendiente",  // O el valor que necesites
+                            FechaRegistro = DateTime.UtcNow
+                        };
+
+                        var tiendaCreada = await _context.TiendaApps.AddAsync(TiendaApps);
+                        await _context.SaveChangesAsync();
+
+                        tiendasCreadas.Add(TiendaApps);
+                    }
                 }
 
                 // 5. Guardar créditos
@@ -228,9 +256,9 @@ namespace GestionIntApi.Repositorios.Implementacion
                 {
                     c.ClienteId = cliente.Id;
                     if (tiendasCreadas.Any())
-                        c.TiendaId = tiendasCreadas.First().Id;
+                        c.TiendaAppId = tiendasCreadas.First().Id;
                     else
-                        c.TiendaId = null;
+                        c.TiendaAppId = null;
                     await _creditoService.CreateCredito(c);
                 }
 
@@ -284,7 +312,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         .Include(u => u.Cliente)
             .ThenInclude(c => c.Creditos)
         .Include(u => u.Cliente)
-            .ThenInclude(c => c.Tiendas)
+            .ThenInclude(c => c.TiendaApps)
         .FirstOrDefaultAsync(u => u.Id == id);
 
             if (usuario == null)

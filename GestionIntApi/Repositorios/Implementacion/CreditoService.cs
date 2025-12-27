@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DocumentFormat.OpenXml.Spreadsheet;
 using GestionIntApi.DTO;
 using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
@@ -17,7 +18,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         private readonly IMapper _mapper;
         private readonly SistemaGestionDBcontext _context;
         private readonly IHubContext<AdminHub> _hubContext;
-
+     
 
         public CreditoService(IHubContext<AdminHub> hubContext, IGenericRepository<Credito> creditoRepository, IMapper mapper, SistemaGestionDBcontext context)
         {
@@ -130,10 +131,10 @@ namespace GestionIntApi.Repositorios.Implementacion
                 ) / 100;
 
                 //modelo.ValorPorCuota = valorBase;
-                modelo.ValorPorCuota = valorBase > 0 ? valorBase : modelo.MontoPendiente;
-                //  modelo.ValorPorCuota = Math.Round(
-                //   modelo.MontoPendiente / totalCuotas, 2
-                //);
+                //modelo.ValorPorCuota = valorBase > 0 ? valorBase : modelo.MontoPendiente;
+                 modelo.ValorPorCuota = Math.Round(
+                   modelo.MontoPendiente / totalCuotas, 2
+                );
                 // Cálculo de ValorPorCuota
                 //  modelo.ValorPorCuota = modelo.MontoPendiente / modelo.PlazoCuotas;
 
@@ -207,8 +208,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                 TiendaEncontrado.PlazoCuotas = modelo.PlazoCuotas;
                 TiendaEncontrado.FrecuenciaPago = modelo.FrecuenciaPago;
                 TiendaEncontrado.DiaPago = modelo.DiaPago;
-                TiendaEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
-                TiendaEncontrado.FotoContrato = modelo.FotoContrato;
+               // TiendaEncontrado.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+                //TiendaEncontrado.FotoContrato = modelo.FotoContrato;
                 // detalleClienteEncontrado.FotoContrato = DetlleModelo.FotoContrato;
 
 
@@ -236,7 +237,137 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
         }
 
+        public async Task<List<HistoriaAppDTO>> GetCalendarioPagos(int creditoId)
+        {
+            var credito = await _creditoRepository.Obtener(c => c.Id == creditoId);
+            if (credito == null)
+                throw new Exception("Crédito no encontrado");
 
+            Console.WriteLine($"MontoTotal: {credito.MontoTotal}");
+            Console.WriteLine($"Entrada: {credito.Entrada}");
+            Console.WriteLine($"MontoPendiente: {credito.MontoPendiente}");
+            Console.WriteLine($"ValorPorCuota: {credito.ValorPorCuota}");
+            Console.WriteLine($"PlazoCuotas: {credito.PlazoCuotas}");
+            Console.WriteLine($"Cálculo: {credito.ValorPorCuota} × {credito.PlazoCuotas} = {credito.ValorPorCuota * credito.PlazoCuotas}");
+
+            var historial = new List<HistoriaAppDTO>();
+
+            // 1️⃣ Registrar entrada
+            decimal saldoRestante = credito.MontoTotal - credito.Entrada;
+
+            historial.Add(new HistoriaAppDTO
+            {
+                Id = credito.Id,
+                ClienteId = credito.ClienteId,
+                TiendaId = credito.TiendaAppId,
+                ProximaCuotaStr = credito.FechaCreacion.ToString("yyyy-MM-dd"),
+                AbonadoCuota = credito.Entrada,
+                MontoPendiente = Math.Round(saldoRestante, 2),
+                EstadoCuota = "Pagado"
+            });
+
+            decimal valorCuota = credito.ValorPorCuota;
+
+            // Calcular la primera cuota desde FechaCreacion
+            DateTime fecha = credito.FechaCreacion;
+            fecha = credito.FrecuenciaPago.ToLower() switch
+            {
+                "semanal" => fecha.AddDays(7),
+                "quincenal" => fecha.AddDays(15),
+                "mensual" => fecha.AddMonths(1),
+                _ => fecha
+            };
+
+            decimal pagoRestante = credito.AbonadoTotal - credito.Entrada;
+
+            // 2️⃣ Generar cuotas restantes
+            for (int i = 0; i < credito.PlazoCuotas; i++)
+            {
+                string estado;
+
+                if (pagoRestante >= valorCuota)
+                {
+                    estado = "Pagado";
+                    pagoRestante -= valorCuota;
+                }
+                else if (pagoRestante > 0)
+                {
+                    estado = "Pagado";
+                    pagoRestante = 0;
+                }
+                else
+                {
+                    estado = "Pendiente";
+                }
+
+                bool esUltimaCuota = (i == credito.PlazoCuotas - 1);
+
+                if (esUltimaCuota)
+                {
+                    // ✅ La última cuota cierra el saldo exacto
+                    historial.Add(new HistoriaAppDTO
+                    {
+                        Id = credito.Id,
+                        ClienteId = credito.ClienteId,
+                        TiendaId = credito.TiendaAppId,
+                        ProximaCuotaStr = fecha.ToString("yyyy-MM-dd"),
+                        AbonadoCuota = Math.Round(saldoRestante, 2),
+                        MontoPendiente = 0,
+                        EstadoCuota = estado
+                    });
+                }
+                else
+                {
+                    // ✅ Restar cuota y redondear
+                    decimal nuevoSaldo = saldoRestante - valorCuota;
+                    nuevoSaldo = Math.Round(nuevoSaldo, 2);
+
+                    // ✅ Si el nuevo saldo es menor que la cuota, ajustar
+                    if (nuevoSaldo < valorCuota && nuevoSaldo > 0)
+                    {
+                        // Penúltima cuota: ajustar para que coincida
+                        decimal cuotaAjustada = saldoRestante - nuevoSaldo;
+
+                        historial.Add(new HistoriaAppDTO
+                        {
+                            Id = credito.Id,
+                            ClienteId = credito.ClienteId,
+                            TiendaId = credito.TiendaAppId,
+                            ProximaCuotaStr = fecha.ToString("yyyy-MM-dd"),
+                            AbonadoCuota = Math.Round(cuotaAjustada, 2),
+                            MontoPendiente = nuevoSaldo,
+                            EstadoCuota = estado
+                        });
+                    }
+                    else
+                    {
+                        // Cuota normal
+                        historial.Add(new HistoriaAppDTO
+                        {
+                            Id = credito.Id,
+                            ClienteId = credito.ClienteId,
+                            TiendaId = credito.TiendaAppId,
+                            ProximaCuotaStr = fecha.ToString("yyyy-MM-dd"),
+                            AbonadoCuota = valorCuota,
+                            MontoPendiente = nuevoSaldo,
+                            EstadoCuota = estado
+                        });
+                    }
+
+                    saldoRestante = nuevoSaldo;
+                }
+
+                fecha = credito.FrecuenciaPago.ToLower() switch
+                {
+                    "semanal" => fecha.AddDays(7),
+                    "quincenal" => fecha.AddDays(15),
+                    "mensual" => fecha.AddMonths(1),
+                    _ => fecha
+                };
+            }
+
+            return historial;
+        }
         public async Task<bool> UpdateCreditoSoloDatos(CreditoDTO modelo)
         {
             try
@@ -265,8 +396,8 @@ namespace GestionIntApi.Repositorios.Implementacion
                 // =============================
                 credito.Marca = modelo.Marca;
                 credito.Modelo = modelo.Modelo;
-                credito.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
-                credito.FotoContrato = modelo.FotoContrato;
+             //   credito.FotoCelularEntregadoUrl = modelo.FotoCelularEntregadoUrl;
+               // credito.FotoContrato = modelo.FotoContrato;
 
                 // =============================
                 // 🕒 Recalcular SOLO estado de cuota

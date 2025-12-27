@@ -66,8 +66,8 @@ namespace GestionIntApi.Controllers
                     {
                         Console.WriteLine("----- Credito -----");
                         Console.WriteLine($"MontoTotal: {c.MontoTotal}");
-                        Console.WriteLine($"FotoContrato: {c.FotoContrato}");
-                        Console.WriteLine($"FotoCelularEntregadoUrl: {c.FotoCelularEntregadoUrl}");
+                       // Console.WriteLine($"FotoContrato: {c.FotoContrato}");
+                        //Console.WriteLine($"FotoCelularEntregadoUrl: {c.FotoCelularEntregadoUrl}");
                     }
                 }
                 else
@@ -123,8 +123,8 @@ namespace GestionIntApi.Controllers
                 {
                     Console.WriteLine("----- Credito -----");
                     Console.WriteLine($"MontoTotal: {c.MontoTotal}");
-                    Console.WriteLine($"FotoContrato: {c.FotoContrato}");
-                    Console.WriteLine($"FotoCelularEntregadoUrl: {c.FotoCelularEntregadoUrl}");
+                //    Console.WriteLine($"FotoContrato: {c.FotoContrato}");
+                 //   Console.WriteLine($"FotoCelularEntregadoUrl: {c.FotoCelularEntregadoUrl}");
                 }
             }
 

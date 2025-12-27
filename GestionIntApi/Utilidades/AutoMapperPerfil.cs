@@ -60,6 +60,7 @@ namespace GestionIntApi.Utilidades
             CreateMap<DetalleCliente, DetalleClienteDTO>().ReverseMap();
             CreateMap<ClienteDTO, Cliente>()
     .ForMember(dest => dest.Usuario, opt => opt.Ignore())
+   // .ForMember(dest => dest.TiendaApps, opt => opt.MapFrom(src => src.TiendasApps))
     .ReverseMap();
 
             CreateMap<Cliente, ReporteDTO>().ReverseMap();
@@ -103,6 +104,12 @@ namespace GestionIntApi.Utilidades
             #region Ubicacion
 
             CreateMap<Ubicacion, UbicacionDTO>().ReverseMap();
+            #endregion Ubicacion
+
+            #region TiendaApp
+            CreateMap<TiendaApp, TiendaAppDTO>().ReverseMap();
+            CreateMap<TiendaAdminDTO, Tienda>().ReverseMap();
+
             #endregion Ubicacion
 
         }

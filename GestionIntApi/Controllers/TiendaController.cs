@@ -1,4 +1,5 @@
 ﻿using GestionIntApi.DTO;
+using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
 using GestionIntApi.Utilidades;
 using Microsoft.AspNetCore.Authorization;
@@ -27,11 +28,11 @@ namespace GestionIntApi.Controllers
         [Route("Lista")]
         public async Task<IActionResult> Lista()
         {
-            var rsp = new Response<List<TiendaDTO>>();
+            var rsp = new Response<List<TiendaAdminDTO>>();
             try
             {
                 rsp.status = true;
-                rsp.value = await _TiendaServicios.GetAllTiendas();
+                rsp.value = await _TiendaServicios.GetTiendasAdmin();
             }
             catch (Exception ex)
             {
@@ -41,23 +42,85 @@ namespace GestionIntApi.Controllers
             return Ok(rsp);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<TiendaDTO>> GetById(int id)
+        [HttpGet]
+        [Route("Lista/{Id}")]
+        public async Task<IActionResult> TiendaPorID(int Id)
         {
+            var rsp = new Response<TiendaAdminDTO>();
             try
             {
-                var odontologo = await _TiendaServicios.GetTiendaById(id);
-                if (odontologo == null)
-                    return NotFound();
-                return Ok(odontologo);
+                rsp.status = true;
+                rsp.value = await _TiendaServicios.GetTiendaAdminById(Id);
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500, "Error al obtener la tienda por ID");
+                rsp.status = false;
+                rsp.msg = ex.Message;
             }
+            return Ok(rsp);
+        }
+
+        /*  [HttpGet("{id}")]
+          public async Task<ActionResult<TiendaDTO>> GetById(int id)
+          {
+              try
+              {
+                  var odontologo = await _TiendaServicios.GetTiendaById(id);
+                  if (odontologo == null)
+                      return NotFound();
+                  return Ok(odontologo);
+              }
+              catch
+              {
+                  return StatusCode(500, "Error al obtener la tienda por ID");
+              }
+          }
+        */
+
+
+        [HttpPost]
+        public async Task<IActionResult> CrearTienda([FromBody] TiendaAdminDTO dto)
+        {
+            var rsp = new Response<TiendaAdminDTO>();
+
+            try
+            {
+                rsp.status = true;
+                rsp.value = await _TiendaServicios.CrearTiendaAdmin(dto);
+                rsp.msg = "Tienda creada correctamente";
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
         }
 
 
+
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var rsp = new Response<bool>();
+
+            try
+            {
+                rsp.status = true;
+                rsp.value = await _TiendaServicios.EliminarTienda(id);
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
+        }
+
+        /*
 
         [HttpGet("tiendaApp/{clienteId}")]
         public async Task<ActionResult<List<TiendaMostrarAppDTO>>> GetByIdApp(int clienteId)
@@ -97,7 +160,7 @@ namespace GestionIntApi.Controllers
 
 
 
-                var tienda = await _TiendaServicios.GetTiendasApp(clienteId);
+                var tienda = await _TiendaServicios.GetTiendasCliente(clienteId);
                 if (tienda == null)
                     return NotFound();
                 return Ok(tienda);
@@ -122,7 +185,7 @@ namespace GestionIntApi.Controllers
                 // 1. Validar correo
 
                 // 2. Registrar usuario directamente
-                var nuevoCredito = await _TiendaServicios.CreateTienda(tienda);
+                var nuevoCredito = await _TiendaServicios.GetTiendasCliente(tienda);
 
                 rsp.status = true;
                 rsp.msg = "Tienda registrada correctamente.";
@@ -257,6 +320,8 @@ namespace GestionIntApi.Controllers
             return Ok(rsp);
         }
 
-
+        */
     }
+
+        
 }

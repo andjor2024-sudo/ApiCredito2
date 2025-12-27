@@ -14,6 +14,8 @@ namespace GestionIntApi.DTO
         [Required(ErrorMessage = "Los nombres y apellidos son obligatorios")]
         public string NombreApellidos { get; set; }
 
+        public string NombrePropietario { get; set; }
+
         [Required(ErrorMessage = "El teléfono es obligatorio")]
         [StringLength(10, MinimumLength = 7, ErrorMessage = "El teléfono debe tener entre 7 y 10 dígitos")]
         [RegularExpression("^[0-9]+$", ErrorMessage = "El teléfono solo debe contener números")]
@@ -24,8 +26,6 @@ namespace GestionIntApi.DTO
         public string Direccion { get; set; }
 
 
-        [Url(ErrorMessage = "La URL de la foto del cliente no es válida")]
-        public string FotoClienteUrl { get; set; }
 
 
 

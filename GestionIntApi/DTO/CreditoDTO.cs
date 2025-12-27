@@ -16,10 +16,6 @@ namespace GestionIntApi.DTO
         [Range(1, double.MaxValue, ErrorMessage = "El monto total debe ser mayor a 0")]
         public decimal MontoTotal { get; set; }
         // Saldo pendiente después de la entrada
-
-
-
-
         public decimal MontoPendiente { get; set; }
 
         [Required(ErrorMessage = "El plazo de cuotas es obligatorio")]
@@ -27,22 +23,21 @@ namespace GestionIntApi.DTO
         public int PlazoCuotas { get; set; }
         public string FrecuenciaPago { get; set; }
         public DateTime DiaPago { get; set; }
-
+       // public string FotoCelularEntregadoUrl { get; set; }
+        //public string FotoContrato { get; set; }
         public decimal ValorPorCuota { get; set; }
 
         public DateTime ProximaCuota { get; set; }
         public string? ProximaCuotaStr { get; set; }
         public string? Estado { get; set; }
 
-        [Url(ErrorMessage = "La URL del contrato no es válida")]
-        public string FotoContrato { get; set; }
-
-        [Url(ErrorMessage = "La URL de la foto del celular entregado no es válida")]
-        public string FotoCelularEntregadoUrl { get; set; }
-
-
         public string Marca { get; set; }
         public string Modelo { get; set; }
+        public int IMEI { get; set; }
+        public string TipoProducto { get; set; }
+
+        public decimal Capacidad { get; set; }
+
         public decimal AbonadoTotal { get; set; }
 
         public decimal AbonadoCuota { get; set; }
@@ -53,6 +48,6 @@ namespace GestionIntApi.DTO
         public DateTime FechaCreacion { get; set; }
         public int ClienteId { get; set; }
 
-        public int? TiendaId { get; set; }
+        public int? TiendaAppId { get; set; }
     }
 }

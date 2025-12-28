@@ -52,7 +52,7 @@ namespace GestionIntApi.Controllers
         }
 
         [HttpPost("asociar")]
-        public async Task<IActionResult> AsociarTienda([FromBody] AsociarTiendaClienteDTO dto)
+        public async Task<IActionResult> AsociarTienda([FromBody] TiendaAppDTO dto)
         {
 
 
@@ -76,12 +76,46 @@ namespace GestionIntApi.Controllers
             return Ok(rsp);
         }
 
+        [HttpPost("asociar1")]
+        public async Task<IActionResult> AsociarTienda1([FromBody] TiendaAppDTO dto)
+        {
+            var rsp = new Response<bool>();
 
+            try
+            {
+                // 🔥 Validar que el DTO no sea null
+                if (dto == null)
+                {
+                    rsp.status = false;
+                    rsp.msg = "Los datos de la tienda son requeridos";
+                    return BadRequest(rsp);
+                }
+
+                // 🔥 Validar que ClienteId venga en el DTO
+                if (dto.ClienteId == 0)
+                {
+                    rsp.status = false;
+                    rsp.msg = "El ClienteId es requerido";
+                    return BadRequest(rsp);
+                }
+
+                rsp.value = await _TiendaServicios.AsociarTiendaCliente(dto);
+                rsp.status = true;
+                rsp.msg = "Tienda asociada correctamente";
+            }
+            catch (Exception ex)
+            {
+                rsp.status = false;
+                rsp.msg = ex.Message;
+            }
+
+            return Ok(rsp);
+        }
 
         [HttpPost]
         [Route("GuardarTiendaJWT")]
         [Authorize] // Requiere JWT válido
-        public async Task<IActionResult> GuardarTinedaConJWT1([FromBody] AsociarTiendaClienteDTO tienda)
+        public async Task<IActionResult> GuardarTinedaConJWT1([FromBody] TiendaAppDTO tienda)
         {
             var rsp = new Response<TiendaAppDTO>();
 
@@ -106,9 +140,12 @@ namespace GestionIntApi.Controllers
                 rsp.value = new TiendaAppDTO
 
                 {
+                    Id = tienda.Id,
+
                     CedulaEncargado = tienda.CedulaEncargado,
                     ClienteId = tienda.ClienteId,
-                    FechaRegistro = DateTime.Now
+                    EstadoDeComision= tienda.EstadoDeComision,
+                    FechaRegistro = DateTime.UtcNow
                 };
 
 
@@ -120,6 +157,56 @@ namespace GestionIntApi.Controllers
             }
 
             return Ok(rsp);
+        }
+
+        [HttpGet("tiendasAppFechaV")]
+
+        [Authorize] // 🔒 Protegido con JWT
+        public async Task<ActionResult<List<TiendaMostrarAppDTO>>> GetFechaVenta()
+        {
+            try
+            {
+
+                var clienteIdClaim = User.FindFirst("ClienteId")?.Value;
+                if (string.IsNullOrEmpty(clienteIdClaim))
+                    return Unauthorized("Token inválido o ClienteId no encontrado");
+
+                int clienteId = int.Parse(clienteIdClaim);
+
+
+
+                var tienda = await _TiendaServicios.GetFechaVenta(clienteId);
+                if (tienda == null)
+                    return NotFound();
+                return Ok(tienda);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex); // o usar ILogger
+                return StatusCode(500, $"Error al obtener los créditos: {ex.Message}");
+
+            }
+        }
+        [HttpGet("tiendasAppFechaVSinJWT/{id}")]
+
+    // 🔒 Protegido con JWT
+        public async Task<ActionResult<List<TiendaMostrarAppDTO>>> GetFechaVentaSINJWT(int id)
+        {
+            try
+            {
+
+ 
+                var tienda = await _TiendaServicios.GetFechaVenta(id);
+                if (tienda == null)
+                    return NotFound();
+                return Ok(tienda);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex); // o usar ILogger
+                return StatusCode(500, $"Error al obtener los créditos: {ex.Message}");
+
+            }
         }
 
 

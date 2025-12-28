@@ -112,6 +112,16 @@ namespace GestionIntApi.Utilidades
 
             #endregion Ubicacion
 
+
+            CreateMap<TiendaApp, TiendaMostrarAppVentaDTO>()
+    .ForMember(dest => dest.FechaRegistroStr,
+
+
+               opt => opt.MapFrom(src => src.FechaRegistro.ToString("dd/MM/yyyy")));
+
+
+            CreateMap<TiendaMostrarAppVentaDTO, TiendaApp>();
+
         }
 
 

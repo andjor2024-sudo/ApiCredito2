@@ -88,7 +88,7 @@ namespace GestionIntApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("IMEI")
+                    b.Property<int?>("IMEI")
                         .HasColumnType("integer");
 
                     b.Property<string>("Marca")

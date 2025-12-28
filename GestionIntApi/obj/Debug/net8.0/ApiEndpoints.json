@@ -782,7 +782,23 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "GestionIntApi.DTO.AsociarTiendaClienteDTO",
+        "Type": "GestionIntApi.DTO.TiendaAppDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.TiendaAppController",
+    "Method": "AsociarTienda1",
+    "RelativePath": "api/TiendaApp/asociar1",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GestionIntApi.DTO.TiendaAppDTO",
         "IsRequired": true
       }
     ],
@@ -798,7 +814,7 @@
     "Parameters": [
       {
         "Name": "tienda",
-        "Type": "GestionIntApi.DTO.AsociarTiendaClienteDTO",
+        "Type": "GestionIntApi.DTO.TiendaAppDTO",
         "IsRequired": true
       }
     ],
@@ -812,6 +828,52 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[GestionIntApi.DTO.TiendaMostrarAppDTO, GestionIntApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.TiendaAppController",
+    "Method": "GetFechaVenta",
+    "RelativePath": "api/TiendaApp/tiendasAppFechaV",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[GestionIntApi.DTO.TiendaMostrarAppDTO, GestionIntApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.TiendaAppController",
+    "Method": "GetFechaVentaSINJWT",
+    "RelativePath": "api/TiendaApp/tiendasAppFechaVSinJWT/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
         "Type": "System.Collections.Generic.List\u00601[[GestionIntApi.DTO.TiendaMostrarAppDTO, GestionIntApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

@@ -184,7 +184,7 @@ namespace GestionIntApi.Repositorios.Implementacion
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<UsuarioDTO> crearUsuario(UsuarioDTO modelo)
+        public async Task<UsuarioDTO> crearUsuario1(UsuarioDTO modelo)
         {
             try
             {
@@ -268,6 +268,93 @@ namespace GestionIntApi.Repositorios.Implementacion
                     throw new TaskCanceledException("No se pudo Crear");
                 var query = await _UsuarioRepositorio.Consultar(u => u.Id == UsuarioCreado.Id);
                 UsuarioCreado = query.Include(rol => rol.Rol).First();
+                return _mapper.Map<UsuarioDTO>(UsuarioCreado);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<UsuarioDTO> crearUsuario(UsuarioDTO modelo)
+        {
+            try
+            {
+                // 🔥 PASO 1: VALIDAR TODO ANTES DE GUARDAR
+                if (modelo.Cliente.TiendaApps != null && modelo.Cliente.TiendaApps.Any())
+                {
+                    // Validar que TODAS las tiendas existan
+                    foreach (var t in modelo.Cliente.TiendaApps)
+                    {
+                        var tiendaExistente = await _context.Tiendas
+                            .FirstOrDefaultAsync(x => x.CedulaEncargado == t.CedulaEncargado);
+
+                        if (tiendaExistente == null)
+                        {
+                            // 🔥 Lanza error ANTES de guardar nada
+                            throw new TaskCanceledException(
+                                $"La tienda con cédula {t.CedulaEncargado} no existe. " +
+                                "Primero debe registrarse la tienda."
+                            );
+                        }
+                    }
+                }
+
+                // ✅ PASO 2: Si pasó todas las validaciones, ahora sí guardamos
+
+                // 1. Encripta la contraseña
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(modelo.Clave);
+                modelo.Clave = hashedPassword;
+                var UsuarioCreado = await _UsuarioRepositorio.Crear(_mapper.Map<Usuario>(modelo));
+
+                // 2. Guardar DetalleCliente
+                var detalle = await _DetalleRepositorio.Crear(
+                    _mapper.Map<DetalleCliente>(modelo.Cliente.DetalleCliente)
+                );
+
+                // 3. Guardar Cliente
+                var cliente = new Cliente
+                {
+                    UsuarioId = UsuarioCreado.Id,
+                    DetalleClienteID = detalle.Id
+                };
+                cliente = await _ClienteRepositorio.Crear(cliente);
+
+                // 4. Crear TiendaApps (ya validamos que todas existen)
+                var tiendasCreadas = new List<TiendaApp>();
+                if (modelo.Cliente.TiendaApps != null)
+                {
+                    foreach (var t in modelo.Cliente.TiendaApps)
+                    {
+                        // Ya sabemos que existe, la buscamos de nuevo
+                        var tiendaExistente = await _context.Tiendas
+                            .FirstOrDefaultAsync(x => x.CedulaEncargado == t.CedulaEncargado);
+
+                        var TiendaApps = new TiendaApp
+                        {
+                            TiendaId = tiendaExistente.Id,
+                            ClienteId = cliente.Id,
+                            CedulaEncargado = t.CedulaEncargado,
+                            EstadoDeComision = "Pendiente",
+                            FechaRegistro = DateTime.UtcNow
+                        };
+
+                        await _context.TiendaApps.AddAsync(TiendaApps);
+                        await _context.SaveChangesAsync();
+                        tiendasCreadas.Add(TiendaApps);
+                    }
+                }
+
+                foreach (var c in modelo.Cliente.Creditos)
+                {
+                    c.ClienteId = cliente.Id;
+                    if (tiendasCreadas.Any())
+                        c.TiendaAppId = tiendasCreadas.First().Id;
+                    else
+                        c.TiendaAppId = null;
+                    await _creditoService.CreateCredito(c);
+                }
+
+
                 return _mapper.Map<UsuarioDTO>(UsuarioCreado);
             }
             catch

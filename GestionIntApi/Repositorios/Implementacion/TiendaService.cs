@@ -4,13 +4,14 @@ using GestionIntApi.Models;
 using GestionIntApi.Repositorios.Contrato;
 using GestionIntApi.Repositorios.Implementacion;
 using GestionIntApi.Repositorios.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 namespace GestionIntApi.Repositorios.Implementacion
 {
     public class TiendaService: ITiendaService
     {
 
         private readonly IGenericRepository<TiendaApp> _tiendaAppRepository;
-
+        private readonly IGenericRepository<TiendaMostrarAppVentaDTO> _tiendaAppRepositoryFecha;
         private readonly IMapper _mapper;
         private readonly SistemaGestionDBcontext _context;
         private readonly IGenericRepository<Tienda> _tiendaRepository;
@@ -21,11 +22,13 @@ namespace GestionIntApi.Repositorios.Implementacion
         public TiendaService(
             IGenericRepository<Tienda> tiendaRepository,
             IGenericRepository<TiendaApp> tiendaAppRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IGenericRepository<TiendaMostrarAppVentaDTO> tiendaAppRepositoryFecha)
         {
             _tiendaRepository = tiendaRepository;
             _tiendaAppRepository = tiendaAppRepository;
             _mapper = mapper;
+            _tiendaAppRepositoryFecha = tiendaAppRepositoryFecha;
         }
 
 
@@ -60,7 +63,7 @@ namespace GestionIntApi.Repositorios.Implementacion
         }
         // 3️⃣ APP → ASOCIAR TIENDA A CLIENTE
         // ===============================
-        public async Task<bool> AsociarTiendaCliente(AsociarTiendaClienteDTO dto)
+        public async Task<bool> AsociarTiendaCliente(TiendaAppDTO dto)
         {
             // Buscar tienda por cédula del encargado
             var tienda = await _tiendaRepository.Obtener(
@@ -81,9 +84,11 @@ namespace GestionIntApi.Repositorios.Implementacion
 
             var tiendaApp = new TiendaApp
             {
+                TiendaId= tienda.Id,
                 CedulaEncargado = tienda.CedulaEncargado,
                 ClienteId = dto.ClienteId,
-                FechaRegistro = DateTime.Now
+               EstadoDeComision = dto.EstadoDeComision,
+                FechaRegistro = DateTime.UtcNow
             };
 
             await _tiendaAppRepository.Crear(tiendaApp);
@@ -103,6 +108,15 @@ namespace GestionIntApi.Repositorios.Implementacion
             return _mapper.Map<List<TiendaAppDTO>>(query.ToList());
         }
 
+
+        public async Task<List<TiendaMostrarAppVentaDTO>> GetFechaVenta(int clienteId)
+        {
+            var query = await _tiendaAppRepository.Consultar(
+                t => t.ClienteId == clienteId
+            );
+
+            return _mapper.Map<List<TiendaMostrarAppVentaDTO>>(query.ToList());
+        }
         // ===============================
         // 5️⃣ ADMIN → ELIMINAR TIENDA
         // ===============================

@@ -14,10 +14,12 @@ namespace GestionIntApi.Repositorios.Interfaces
 
         Task<TiendaAdminDTO> CrearTiendaAdmin(TiendaAdminDTO dto);
         Task<List<TiendaAdminDTO>> GetTiendasAdmin();
-        Task<bool> AsociarTiendaCliente(AsociarTiendaClienteDTO dto);
+        Task<bool> AsociarTiendaCliente(TiendaAppDTO dto);
         Task<List<TiendaAppDTO>> GetTiendasCliente(int clienteId);
         Task<TiendaAdminDTO> GetTiendaAdminById(int id);
         Task<bool> EliminarTienda(int id);
+
+        Task<List<TiendaMostrarAppVentaDTO>> GetFechaVenta(int clienteId);
 
     }
 }

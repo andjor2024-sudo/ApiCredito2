@@ -1345,17 +1345,48 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TiendaApp/asociar1": {
+      "post": {
+        "tags": [
+          "TiendaApp"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TiendaAppDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TiendaAppDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             }
           }
@@ -1376,17 +1407,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AsociarTiendaClienteDTO"
+                "$ref": "#/components/schemas/TiendaAppDTO"
               }
             }
           }
@@ -1394,6 +1425,93 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/TiendaApp/tiendasAppFechaV": {
+      "get": {
+        "tags": [
+          "TiendaApp"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TiendaApp/tiendasAppFechaVSinJWT/{id}": {
+      "get": {
+        "tags": [
+          "TiendaApp"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TiendaMostrarAppDTO"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1717,20 +1835,6 @@
   },
   "components": {
     "schemas": {
-      "AsociarTiendaClienteDTO": {
-        "type": "object",
-        "properties": {
-          "cedulaEncargado": {
-            "type": "string",
-            "nullable": true
-          },
-          "clienteId": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "ClienteDTO": {
         "type": "object",
         "properties": {
@@ -2138,6 +2242,10 @@
             "format": "int32"
           },
           "cedulaEncargado": {
+            "type": "string",
+            "nullable": true
+          },
+          "estadoDeComision": {
             "type": "string",
             "nullable": true
           },

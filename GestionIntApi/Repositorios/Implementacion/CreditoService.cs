@@ -89,10 +89,10 @@ namespace GestionIntApi.Repositorios.Implementacion
                     c => c.ClienteId == modelo.ClienteId && c.MontoPendiente > 0
                 );
 
-                if (creditoActual != null)
-                {
-                    throw new Exception("El cliente aún tiene un crédito activo pendiente. Debe saldarlo antes de crear uno nuevo.");
-                }
+             //   if (creditoActual != null)
+               // {
+                 //   throw new Exception("El cliente aún tiene un crédito activo pendiente. Debe saldarlo antes de crear uno nuevo.");
+               // }
 
 
 

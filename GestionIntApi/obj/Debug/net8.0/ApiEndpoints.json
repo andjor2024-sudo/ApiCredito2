@@ -1055,6 +1055,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GestionIntApi.Controllers.Admin.UsuarioAdminController",
+    "Method": "Guardar1",
+    "RelativePath": "api/UsuarioAdmin/Guardar",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "usuarioAdmin",
+        "Type": "GestionIntApi.DTO.Admin.UsuarioAdminDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GestionIntApi.Controllers.Admin.UsuarioAdminController",
+    "Method": "IniciarSesion",
+    "RelativePath": "api/UsuarioAdmin/IniciarSesion",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "GestionIntApi.DTO.LoginDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GestionIntApi.Controllers.WeatherForecastController",
     "Method": "Get",
     "RelativePath": "WeatherForecast",

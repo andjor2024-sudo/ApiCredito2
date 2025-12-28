@@ -275,6 +275,7 @@ namespace GestionIntApi.Migrations
                     AbonadoTotal = table.Column<decimal>(type: "numeric", nullable: false),
                     AbonadoCuota = table.Column<decimal>(type: "numeric", nullable: false),
                     EstadoCuota = table.Column<string>(type: "text", nullable: false),
+                    MetodoPago = table.Column<string>(type: "text", nullable: true),
                     FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ClienteId = table.Column<int>(type: "integer", nullable: false),
                     TiendaAppId = table.Column<int>(type: "integer", nullable: true)
@@ -295,17 +296,41 @@ namespace GestionIntApi.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RegistrosPagos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreditoId = table.Column<int>(type: "integer", nullable: false),
+                    MontoPagado = table.Column<decimal>(type: "numeric", nullable: false),
+                    MetodoPago = table.Column<string>(type: "text", nullable: false),
+                    FechaPago = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RegistrosPagos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RegistrosPagos_Creditos_CreditoId",
+                        column: x => x.CreditoId,
+                        principalTable: "Creditos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Menus",
                 columns: new[] { "Id", "Icono", "Nombre", "Url" },
                 values: new object[,]
                 {
                     { 1, "dashboard", "DashBoard", "/pages/dashboard" },
-                    { 2, "group", "Usuarios", "/pages/usuarios" },
-                    { 3, "fa-user", "Clientes", "/clientes" },
-                    { 4, "currency_exchange", "Venta", "/pages/venta" },
-                    { 5, "edit_note", "Historial", "/pages/historial_venta" },
-                    { 6, "receipt", "Reportes", "/pages/reportes" }
+                    { 2, "payments", "Pagos", "/pages/pagos" },
+                    { 3, "inventory", "RegistrarBodega", "/pages/bodega/registrar" },
+                    { 4, "edit_attributes", "EditarBodega", "/pages/bodega/editar" },
+                    { 5, "storefront", "RegistrarTienda", "/pages/tienda/registrar" },
+                    { 6, "history", "Movimientos", "/pages/movimientos" },
+                    { 7, "assessment", "Reportes", "/pages/reportes" },
+                    { 8, "location_on", "Ubicacion", "/pages/ubicacion" }
                 });
 
             migrationBuilder.InsertData(
@@ -314,7 +339,8 @@ namespace GestionIntApi.Migrations
                 values: new object[,]
                 {
                     { 1, "Administrador", new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc) },
-                    { 2, "Cliente", new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc) }
+                    { 2, "Cliente", new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc) },
+                    { 3, "Cajera", new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc) }
                 });
 
             migrationBuilder.InsertData(
@@ -327,7 +353,14 @@ namespace GestionIntApi.Migrations
                     { 3, 3, 1 },
                     { 4, 4, 1 },
                     { 5, 5, 1 },
-                    { 6, 6, 1 }
+                    { 6, 6, 1 },
+                    { 7, 7, 1 },
+                    { 8, 1, 3 },
+                    { 9, 2, 3 },
+                    { 10, 3, 3 },
+                    { 11, 5, 3 },
+                    { 12, 6, 3 },
+                    { 13, 7, 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -368,6 +401,11 @@ namespace GestionIntApi.Migrations
                 column: "ClienteId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RegistrosPagos_CreditoId",
+                table: "RegistrosPagos",
+                column: "CreditoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TiendaApps_ClienteId",
                 table: "TiendaApps",
                 column: "ClienteId");
@@ -387,9 +425,6 @@ namespace GestionIntApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Creditos");
-
-            migrationBuilder.DropTable(
                 name: "EmailSettings");
 
             migrationBuilder.DropTable(
@@ -399,16 +434,22 @@ namespace GestionIntApi.Migrations
                 name: "Notificacions");
 
             migrationBuilder.DropTable(
+                name: "RegistrosPagos");
+
+            migrationBuilder.DropTable(
                 name: "Ubicacions");
 
             migrationBuilder.DropTable(
                 name: "VerificationCode");
 
             migrationBuilder.DropTable(
-                name: "TiendaApps");
+                name: "Menus");
 
             migrationBuilder.DropTable(
-                name: "Menus");
+                name: "Creditos");
+
+            migrationBuilder.DropTable(
+                name: "TiendaApps");
 
             migrationBuilder.DropTable(
                 name: "Clientes");

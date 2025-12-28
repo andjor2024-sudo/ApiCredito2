@@ -95,6 +95,9 @@ namespace GestionIntApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("MetodoPago")
+                        .HasColumnType("text");
+
                     b.Property<string>("Modelo")
                         .IsRequired()
                         .HasColumnType("text");
@@ -225,37 +228,51 @@ namespace GestionIntApi.Migrations
                         new
                         {
                             Id = 2,
-                            Icono = "group",
-                            Nombre = "Usuarios",
-                            Url = "/pages/usuarios"
+                            Icono = "payments",
+                            Nombre = "Pagos",
+                            Url = "/pages/pagos"
                         },
                         new
                         {
                             Id = 3,
-                            Icono = "fa-user",
-                            Nombre = "Clientes",
-                            Url = "/clientes"
+                            Icono = "inventory",
+                            Nombre = "RegistrarBodega",
+                            Url = "/pages/bodega/registrar"
                         },
                         new
                         {
                             Id = 4,
-                            Icono = "currency_exchange",
-                            Nombre = "Venta",
-                            Url = "/pages/venta"
+                            Icono = "edit_attributes",
+                            Nombre = "EditarBodega",
+                            Url = "/pages/bodega/editar"
                         },
                         new
                         {
                             Id = 5,
-                            Icono = "edit_note",
-                            Nombre = "Historial",
-                            Url = "/pages/historial_venta"
+                            Icono = "storefront",
+                            Nombre = "RegistrarTienda",
+                            Url = "/pages/tienda/registrar"
                         },
                         new
                         {
                             Id = 6,
-                            Icono = "receipt",
+                            Icono = "history",
+                            Nombre = "Movimientos",
+                            Url = "/pages/movimientos"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Icono = "assessment",
                             Nombre = "Reportes",
                             Url = "/pages/reportes"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Icono = "location_on",
+                            Nombre = "Ubicacion",
+                            Url = "/pages/ubicacion"
                         });
                 });
 
@@ -317,6 +334,48 @@ namespace GestionIntApi.Migrations
                             Id = 6,
                             MenuId = 6,
                             RolId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            MenuId = 7,
+                            RolId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            MenuId = 1,
+                            RolId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            MenuId = 2,
+                            RolId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            MenuId = 3,
+                            RolId = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            MenuId = 5,
+                            RolId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            MenuId = 6,
+                            RolId = 3
+                        },
+                        new
+                        {
+                            Id = 13,
+                            MenuId = 7,
+                            RolId = 3
                         });
                 });
 
@@ -352,6 +411,34 @@ namespace GestionIntApi.Migrations
                     b.ToTable("Notificacions");
                 });
 
+            modelBuilder.Entity("GestionIntApi.Models.RegistrarPago", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CreditoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("FechaPago")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("MetodoPago")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("MontoPagado")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreditoId");
+
+                    b.ToTable("RegistrosPagos");
+                });
+
             modelBuilder.Entity("GestionIntApi.Models.Rol", b =>
                 {
                     b.Property<int>("Id")
@@ -381,6 +468,12 @@ namespace GestionIntApi.Migrations
                         {
                             Id = 2,
                             Descripcion = "Cliente",
+                            FechaRegistro = new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Descripcion = "Cajera",
                             FechaRegistro = new DateTime(2025, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -603,6 +696,17 @@ namespace GestionIntApi.Migrations
                     b.Navigation("Cliente");
                 });
 
+            modelBuilder.Entity("GestionIntApi.Models.RegistrarPago", b =>
+                {
+                    b.HasOne("GestionIntApi.Models.Credito", "Credito")
+                        .WithMany("RegistrosPagos")
+                        .HasForeignKey("CreditoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Credito");
+                });
+
             modelBuilder.Entity("GestionIntApi.Models.TiendaApp", b =>
                 {
                     b.HasOne("GestionIntApi.Models.Cliente", "Cliente")
@@ -636,6 +740,11 @@ namespace GestionIntApi.Migrations
                     b.Navigation("Creditos");
 
                     b.Navigation("TiendaApps");
+                });
+
+            modelBuilder.Entity("GestionIntApi.Models.Credito", b =>
+                {
+                    b.Navigation("RegistrosPagos");
                 });
 
             modelBuilder.Entity("GestionIntApi.Models.DetalleCliente", b =>

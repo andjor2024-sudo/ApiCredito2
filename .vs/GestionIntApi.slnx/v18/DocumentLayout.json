@@ -3,20 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\controllers\\admin\\usuarioadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\controllers\\admin\\usuarioadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\dto\\pagocreditodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\dto\\pagocreditodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\dto\\pagarcreditodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\dto\\pagarcreditodto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\models\\sistemagestiondbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\models\\sistemagestiondbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\dto\\admin\\registrotemporaladmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\dto\\admin\\registrotemporaladmin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\repositorios\\implementacion\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\repositorios\\implementacion\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\models\\registrotemporal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\models\\registrotemporal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Migrations\\20251228045206_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:GestionIntApi\\Migrations\\20251228045206_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\controllers\\admin\\usuarioadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\controllers\\admin\\usuarioadmincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\repositorios\\interfaces\\iregistrotemporalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -39,10 +59,6 @@
       "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\repositorios\\implementacion\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\repositorios\\implementacion\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\repositorios\\implementacion\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|c:\\users\\andjo\\3d objects\\subirapi\\trabajo\\apigestioninterna\\gestionintapi\\repositorios\\implementacion\\tiendaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1AF9EC3F-F646-6177-ACE4-A36F8C531D7E}|GestionIntApi\\GestionIntApi.csproj|solutionrelative:gestionintapi\\repositorios\\implementacion\\tiendaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -62,11 +78,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "DetalleCliente.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\DetalleCliente.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Models\\DetalleCliente.cs",
@@ -79,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "TiendaService.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Repositorios\\Implementacion\\TiendaService.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Repositorios\\Implementacion\\TiendaService.cs",
@@ -92,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "ClienteService.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Repositorios\\Implementacion\\ClienteService.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Repositorios\\Implementacion\\ClienteService.cs",
@@ -101,11 +117,12 @@
               "ViewState": "AgIAADgAAAAAAAAAAAAYwEcAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-27T22:03:52.56Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "UsuarioController.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Controllers\\UsuarioController.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Controllers\\UsuarioController.cs",
@@ -114,11 +131,12 @@
               "ViewState": "AgIAAFwAAAAAAAAAAAAnwGEAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-27T20:49:50.011Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RegistroTemporalAdmin.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\DTO\\Admin\\RegistroTemporalAdmin.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\DTO\\Admin\\RegistroTemporalAdmin.cs",
@@ -127,7 +145,60 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-12-28T04:30:18.673Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PagarCreditoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\DTO\\PagarCreditoDTO.cs",
+              "RelativeDocumentMoniker": "GestionIntApi\\DTO\\PagarCreditoDTO.cs",
+              "ToolTip": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\DTO\\PagarCreditoDTO.cs",
+              "RelativeToolTip": "GestionIntApi\\DTO\\PagarCreditoDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T05:26:11.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PagoCreditoDTO.cs",
+              "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\DTO\\PagoCreditoDTO.cs",
+              "RelativeDocumentMoniker": "GestionIntApi\\DTO\\PagoCreditoDTO.cs",
+              "ToolTip": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\DTO\\PagoCreditoDTO.cs",
+              "RelativeToolTip": "GestionIntApi\\DTO\\PagoCreditoDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T05:26:08.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SistemaGestionDBcontext.cs",
+              "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\SistemaGestionDBcontext.cs",
+              "RelativeDocumentMoniker": "GestionIntApi\\Models\\SistemaGestionDBcontext.cs",
+              "ToolTip": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\SistemaGestionDBcontext.cs",
+              "RelativeToolTip": "GestionIntApi\\Models\\SistemaGestionDBcontext.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAQwEgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T05:12:00.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "20251228045206_initial.cs",
+              "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Migrations\\20251228045206_initial.cs",
+              "RelativeDocumentMoniker": "GestionIntApi\\Migrations\\20251228045206_initial.cs",
+              "ToolTip": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Migrations\\20251228045206_initial.cs",
+              "RelativeToolTip": "GestionIntApi\\Migrations\\20251228045206_initial.cs",
+              "ViewState": "AgIAAPcAAAAAAAAAAAAgwOYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-28T04:52:06.843Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -139,7 +210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "RegistroTemporal.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\RegistroTemporal.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Models\\RegistroTemporal.cs",
@@ -147,11 +218,12 @@
               "RelativeToolTip": "GestionIntApi\\Models\\RegistroTemporal.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-28T04:46:18.724Z"
+              "WhenOpened": "2025-12-28T04:46:18.724Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "IRegistroTemporalService.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Repositorios\\Interfaces\\IRegistroTemporalService.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Repositorios\\Interfaces\\IRegistroTemporalService.cs",
@@ -163,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "Cliente.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\Cliente.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Models\\Cliente.cs",
@@ -175,7 +247,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Models\\Usuario.cs",
@@ -187,7 +259,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 8,
               "Title": "UsuarioAdminController.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Controllers\\Admin\\UsuarioAdminController.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Controllers\\Admin\\UsuarioAdminController.cs",
@@ -200,7 +272,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "IRegistroTemporalAdminService.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Repositorios\\Interfaces\\Admin\\IRegistroTemporalAdminService.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Repositorios\\Interfaces\\Admin\\IRegistroTemporalAdminService.cs",
@@ -212,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "UsuarioRepository.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Repositorios\\Implementacion\\UsuarioRepository.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Repositorios\\Implementacion\\UsuarioRepository.cs",
@@ -224,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "Menu.cs",
               "DocumentMoniker": "C:\\Users\\andjo\\3D Objects\\subirapi\\TRABAJO\\apiGestionInterna\\GestionIntApi\\Models\\Menu.cs",
               "RelativeDocumentMoniker": "GestionIntApi\\Models\\Menu.cs",

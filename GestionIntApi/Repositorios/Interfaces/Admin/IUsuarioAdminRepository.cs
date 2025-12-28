@@ -3,7 +3,7 @@ using GestionIntApi.DTO.Admin;
 
 namespace GestionIntApi.Repositorios.Interfaces.Admin
 {
-    public interface IUsuarioAdmin
+    public interface IUsuarioAdminRepository
     {
 
         Task<List<UsuarioAdminDTO>> listaUsuarios();

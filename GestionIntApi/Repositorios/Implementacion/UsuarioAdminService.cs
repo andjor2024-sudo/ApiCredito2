@@ -4,11 +4,12 @@ using GestionIntApi.DTO.Admin;
 using GestionIntApi.Models;
 using GestionIntApi.Models.Admin;
 using GestionIntApi.Repositorios.Contrato;
+using GestionIntApi.Repositorios.Interfaces.Admin;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionIntApi.Repositorios.Implementacion
 {
-    public class UsuarioAdminService
+    public class UsuarioAdminService:IUsuarioAdminRepository
     {
 
         private readonly IGenericRepository<UsuarioAdmin> _UsuarioRepositorio;
@@ -54,9 +55,29 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
         }
 
-   
+        public async Task<SesionDTOAdmin> ValidarCredenciales(string correo, string clave)
+        {
+            try
+            {
+                var queryUsuario = await _UsuarioRepositorio.Consultar(
+                u => u.Correo == correo
+               );
+                if (queryUsuario.FirstOrDefault() == null)
+                    throw new TaskCanceledException("El usuario no existe");
+                UsuarioAdmin devolverUsuario = queryUsuario.Include(rol => rol.Rol).First();
+                if (devolverUsuario.EsActivo == false) // Verificar el estado del usuario
+                    throw new TaskCanceledException("El usuario está inactivo");
+                if (!BCrypt.Net.BCrypt.Verify(clave, devolverUsuario.Clave))
+                    throw new TaskCanceledException("La contraseña es incorrecta");
+                return _mapper.Map<SesionDTOAdmin>(devolverUsuario);
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        public async Task<UsuarioAdminDTO> crearUsuario(UsuarioDTO modelo)
+        public async Task<UsuarioAdminDTO> crearUsuario(UsuarioAdminDTO modelo)
         {
             try
             {
@@ -79,7 +100,7 @@ namespace GestionIntApi.Repositorios.Implementacion
             }
         }
 
-        public async Task<bool> editarUsuario(UsuarioAdmin modelo)
+        public async Task<bool> editarUsuario(UsuarioAdminDTO modelo)
         {
             try
             {

@@ -27,10 +27,13 @@ namespace GestionIntApi.DTO
         //public string FotoContrato { get; set; }
         public decimal ValorPorCuota { get; set; }
 
+
+
         public DateTime ProximaCuota { get; set; }
         public string? ProximaCuotaStr { get; set; }
         public string? Estado { get; set; }
 
+        public string? MetodoPago { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public int? IMEI { get; set; }

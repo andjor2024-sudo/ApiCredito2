@@ -538,6 +538,20 @@ namespace GestionIntApi.Repositorios.Implementacion
             // 6. Guardar cambios en BD
             // =============================
             await _creditoRepository.Editar(credito);
+
+            // 🔥 Cambia de RegistroPago a RegistrarPago
+            var registroPago = new RegistrarPago  // ✅ Con "ar"
+            {
+                CreditoId = pago.CreditoId,
+                MontoPagado = pago.MontoPagado,
+                MetodoPago = pago.MetodoPago ?? "Efectivo",
+                FechaPago = DateTime.UtcNow
+            };
+            _context.RegistrosPagos.Add(registroPago);
+            await _context.SaveChangesAsync();
+            // 🔥 FIN NUEVO
+
+
             var dto = _mapper.Map<PagarCreditoDTO>(credito);
 
 

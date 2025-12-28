@@ -32,6 +32,7 @@
         public decimal AbonadoCuota { get; set; }
         public string EstadoCuota { get; set; }
 
+        public string? MetodoPago { get; set; }
 
         public DateTime FechaCreacion { get; set; }
 
@@ -40,7 +41,9 @@
         public Cliente Cliente { get; set; }
 
         public int? TiendaAppId { get; set; }
-        public TiendaApp TiendaApp { get; set; } 
+        public TiendaApp TiendaApp { get; set; }
         // public ICollection<Cliente> Clientes { get; set; }
+
+        public ICollection<RegistrarPago> RegistrosPagos { get; set; }
     }
 }

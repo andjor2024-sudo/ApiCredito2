@@ -1,0 +1,16 @@
+﻿using GestionIntApi.DTO;
+using GestionIntApi.DTO.Admin;
+
+namespace GestionIntApi.Repositorios.Interfaces.Admin
+{
+    public interface IUsuarioAdmin
+    {
+
+        Task<List<UsuarioAdminDTO>> listaUsuarios();
+        Task<SesionDTOAdmin> ValidarCredenciales(string correo, string clave);
+        Task<UsuarioAdminDTO> crearUsuario(UsuarioAdminDTO modelo);
+        Task<bool> editarUsuario(UsuarioAdminDTO modelo);
+        Task<bool> eliminarUsuario(int id);
+        Task<UsuarioAdminDTO> obtenerPorIdUsuario(int id);
+    }
+}

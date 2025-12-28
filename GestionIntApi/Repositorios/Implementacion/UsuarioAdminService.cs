@@ -1,0 +1,126 @@
+﻿using AutoMapper;
+using GestionIntApi.DTO;
+using GestionIntApi.DTO.Admin;
+using GestionIntApi.Models;
+using GestionIntApi.Models.Admin;
+using GestionIntApi.Repositorios.Contrato;
+using Microsoft.EntityFrameworkCore;
+
+namespace GestionIntApi.Repositorios.Implementacion
+{
+    public class UsuarioAdminService
+    {
+
+        private readonly IGenericRepository<UsuarioAdmin> _UsuarioRepositorio;
+        private readonly IMapper _mapper;
+
+        public UsuarioAdminService(IGenericRepository<UsuarioAdmin> usuarioRepositorio, IMapper mapper)
+        {
+            _UsuarioRepositorio = usuarioRepositorio;
+            _mapper = mapper;
+        }
+
+        public async Task<List<UsuarioAdminDTO>> listaUsuarios()
+        {
+            try
+            {
+                var queryUsuario = await _UsuarioRepositorio.Consultar();
+                var listaUsuario = queryUsuario.Include(rol => rol.Rol).ToList();
+                // Recorremos la lista de usuarios y reemplazamos el hash de la contraseña por el texto plano
+                return _mapper.Map<List<UsuarioAdminDTO>>(listaUsuario);
+            }
+            catch
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<UsuarioAdminDTO> obtenerPorIdUsuario(int id)
+        {
+            try
+            {
+                var odontologoEncontrado = await _UsuarioRepositorio
+                    .Obtenerid(u => u.Id == id);
+                var listaUsuario = odontologoEncontrado.Include(rol => rol.Rol).ToList();
+                var odontologo = listaUsuario.FirstOrDefault();
+                if (odontologo == null)
+                    throw new TaskCanceledException("Usuario no encontrado");
+                return _mapper.Map<UsuarioAdminDTO>(odontologo);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+   
+
+        public async Task<UsuarioAdminDTO> crearUsuario(UsuarioDTO modelo)
+        {
+            try
+            {
+                // Encripta la contraseña del modelo
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(modelo.Clave);
+                // Actualiza la propiedad 'Clave' del modelo con la contraseña encriptada
+                modelo.Clave = hashedPassword;
+
+                var UsuarioCreado = await _UsuarioRepositorio.Crear(_mapper.Map<UsuarioAdmin>(modelo));
+
+                if (UsuarioCreado.Id == 0)
+                    throw new TaskCanceledException("No se pudo Crear");
+                var query = await _UsuarioRepositorio.Consultar(u => u.Id == UsuarioCreado.Id);
+                UsuarioCreado = query.Include(rol => rol.Rol).First();
+                return _mapper.Map<UsuarioAdminDTO>(UsuarioCreado);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> editarUsuario(UsuarioAdmin modelo)
+        {
+            try
+            {
+                // Encripta la contraseña del modelo
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(modelo.Clave);
+                // Actualiza la propiedad 'Clave' del modelo con la contraseña encriptada
+                modelo.Clave = hashedPassword;
+
+                var UsuarioModelo = _mapper.Map<UsuarioAdmin>(modelo);
+
+                var UsuarioEncontrado = await _UsuarioRepositorio.Obtener(u => u.Id == UsuarioModelo.Id);
+                if (UsuarioEncontrado == null)
+                    throw new TaskCanceledException("El usuario no existe");
+                UsuarioEncontrado.NombreApellidos = UsuarioModelo.NombreApellidos;
+                UsuarioEncontrado.Correo = UsuarioModelo.Correo;
+                UsuarioEncontrado.RolId = UsuarioModelo.RolId;
+                UsuarioEncontrado.Clave = UsuarioModelo.Clave;
+                UsuarioEncontrado.EsActivo = UsuarioModelo.EsActivo;
+                bool respuesta = await _UsuarioRepositorio.Editar(UsuarioEncontrado);
+                return respuesta;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> eliminarUsuario(int id)
+        {
+            try
+            {
+                var UsuarioEncontrado = await _UsuarioRepositorio.Obtener(u => u.Id == id);
+                if (UsuarioEncontrado == null)
+                    throw new TaskCanceledException("Usuario no existe");
+                bool respuesta = await _UsuarioRepositorio.Eliminar(UsuarioEncontrado);
+                return respuesta;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+    }
+}

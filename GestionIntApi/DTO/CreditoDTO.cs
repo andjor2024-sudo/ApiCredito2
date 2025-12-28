@@ -36,7 +36,7 @@ namespace GestionIntApi.DTO
         public string? MetodoPago { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
-        public int? IMEI { get; set; }
+        public string? IMEI { get; set; }
         public string TipoProducto { get; set; }
 
         public decimal Capacidad { get; set; }

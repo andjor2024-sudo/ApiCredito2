@@ -2058,8 +2058,7 @@
             "format": "double"
           },
           "imei": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "abonadoTotal": {
@@ -2176,8 +2175,7 @@
             "nullable": true
           },
           "imei": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
             "nullable": true
           },
           "tipoProducto": {

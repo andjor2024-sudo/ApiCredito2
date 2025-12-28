@@ -271,7 +271,7 @@ namespace GestionIntApi.Migrations
                     Modelo = table.Column<string>(type: "text", nullable: false),
                     TipoProducto = table.Column<string>(type: "text", nullable: false),
                     Capacidad = table.Column<decimal>(type: "numeric", nullable: false),
-                    IMEI = table.Column<int>(type: "integer", nullable: true),
+                    IMEI = table.Column<string>(type: "text", nullable: true),
                     AbonadoTotal = table.Column<decimal>(type: "numeric", nullable: false),
                     AbonadoCuota = table.Column<decimal>(type: "numeric", nullable: false),
                     EstadoCuota = table.Column<string>(type: "text", nullable: false),

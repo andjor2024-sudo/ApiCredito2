@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionIntApi.Migrations
 {
     [DbContext(typeof(SistemaGestionDBcontext))]
-    [Migration("20251228045206_initial")]
+    [Migration("20251228064608_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -91,8 +91,8 @@ namespace GestionIntApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("IMEI")
-                        .HasColumnType("integer");
+                    b.Property<string>("IMEI")
+                        .HasColumnType("text");
 
                     b.Property<string>("Marca")
                         .IsRequired()
